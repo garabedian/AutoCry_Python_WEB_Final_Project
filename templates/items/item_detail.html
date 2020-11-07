@@ -1,0 +1,47 @@
+{% extends 'landing_page.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex">
+            <div class="d-inline p-2 w-50">
+                <img src="{{ item.image_url }}" class="w-50 rounded mx-auto d-block" alt="image of {{ item.name }}">
+            </div>
+            <div class="d-inline p-2 w-50">
+                <div class="d-flex justify-content-between">
+                    <h5><u>Type:</u> {{ item.type }}</h5>
+                    <h5><u>Name:</u> {{ item.name }}</h5>
+                    <h5><u>Age:</u> {{ item.age }}</h5>
+                </div>
+                <p class="mt-2">Description: {{ item.description }}</p>
+                <div>
+                    <a href="{% url 'edit item' item.pk %}" class="btn btn-success">Edit</a>
+                    <a href="{% url 'delete item' item.pk %}" class="btn btn-danger">Delete</a>
+                </div>
+                <a href="{% url 'like item' item.id %}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                {#            <a href="/items/like/{{ item.id }}/"><i class="fa fa-heart-o" aria-hidden="true"></i></a>#}
+                <p class="mt-2">Likes: {{ item.like_set.count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="d-block" style="background-color: #f1e3e3; padding:2%">
+        {% if item.comment_set.count > 0 %}
+            {% for comment in item.comment_set.all %}
+                <div class="box">
+                    <h5><em>{{ comment.comment }}</em></h5>
+                    <hr>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="box">
+                <h3>There are no comments for this item. </h3>
+            </div>
+        {% endif %}
+        <div class="box">
+            <form method="post" action="{% url 'item details or comment' item.pk %}">
+                {% csrf_token %}
+                {{ form }}
+                <button class="btn btn-primary mt-2" type="submit">Add comment</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

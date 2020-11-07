@@ -1,0 +1,22 @@
+{% extends 'landing_page.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class='text-center'>All item photos</h1>
+        <div class="row">
+            {% for item in items %}
+                <div class="col-lg-4">
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{ item.image_url }}" class="card-img-top" alt="image of {{ item.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.type }} {{ item.name }}, Age: {{ item.age }} </h5>
+                            <p class="card-text">{{ item.description }}</p>
+                            <a href="{% url 'item details or comment' item.id %}" class="btn btn-primary">See details</a>
+    {#                        <a href="/items/details/{{ item.id }}/" class="btn btn-primary">See details</a>#}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
