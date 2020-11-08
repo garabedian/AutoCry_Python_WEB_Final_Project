@@ -25,7 +25,7 @@ SECRET_KEY = '=p#&$izoov^3=m-7%q-_k*^-)z55p)3f%j0+vr3$pw$y@t*kw='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'autocry.herokuapp.com']
 
 
 # Application definition
