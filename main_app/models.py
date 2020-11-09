@@ -1,8 +1,8 @@
 from django.db import models
 
+from main_app.validators import year_validator
 
-# Create your models here.
-# Info db
+
 class Item(models.Model):
     SEDAN = 'sedan'
     HATCHBACK = 'hatchback'
@@ -21,20 +21,18 @@ class Item(models.Model):
     )
 
     type = models.CharField(max_length=9, choices=ITEM_TYPES, default=UNKNOWN)
-    name = models.CharField(max_length=10, blank=False)
-    age = models.PositiveIntegerField(blank=False)
+    make = models.CharField(max_length=15, default='', blank=False)
+    model = models.CharField(max_length=20, default='', blank=False)
+    build_year = models.IntegerField(validators=[year_validator])
     description = models.TextField(blank=False)
     image_url = models.URLField(blank=False)
-
-    def __str__(self):
-        return f'{self.id}, {self.name}, {self.age}'
 
 
 # Additional property db
 class Like(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     # Helper field to make db visible in admin panel, using "manager class"
-    test = models.CharField(max_length=2)
+    # test = models.CharField(max_length=2)
 
 
 class Comment(models.Model):

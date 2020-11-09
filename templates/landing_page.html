@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
     <link rel="icon" type="image/png" href="{% static 'images/car.png' %}">
-    <link rel="stylesheet" href="{% static '/css/fontawesome/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/fontawesome/css/all.css' %}">
 </head>
 
 {% include 'header.html' %}
 
-{% block content %}
-    <div class="container" style="padding-top: 60px">
+<div class="container" style="padding-top: 80px; padding-bottom: 50px">
+    {% block content %}
         <div class="jumbotron parent">
             <img style="width: 100%"
                  src="{% static 'images/group of cars.jpg' %}" alt="">
@@ -36,6 +36,7 @@
                 </div>
             </div>
         </div>
-    </div>
-{% endblock content %}
+    {% endblock content %}
+</div>
+
 {% include 'footer.html' %}

@@ -20,7 +20,7 @@ def list_items(request):
 def details_or_comment_item(request, pk):
     item = Item.objects.get(pk=pk)
     if request.method == 'GET':
-        context = dict(item=item, form=CommentForm())
+        context = dict(item=item, form=CommentForm(), like=Like.objects.filter(item_id=pk).exists())
 
         return render(request, 'items/item_detail.html', context)
     else:
@@ -41,9 +41,12 @@ def details_or_comment_item(request, pk):
 
 def like_item(request, pk):
     item = Item.objects.get(pk=pk)
-    like = Like(test=str(pk))
-    like.item = item
-    like.save()
+    if Like.objects.filter(item_id=pk).exists():
+        Like.objects.filter(item_id=pk).delete()
+    else:
+        like = Like()
+        like.item = item
+        like.save()
     return redirect('item details or comment', pk)
 
 

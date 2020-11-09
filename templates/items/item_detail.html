@@ -9,16 +9,22 @@
             <div class="d-inline p-2 w-50">
                 <div class="d-flex justify-content-between">
                     <h5><u>Type:</u> {{ item.type }}</h5>
-                    <h5><u>Name:</u> {{ item.name }}</h5>
-                    <h5><u>Age:</u> {{ item.age }}</h5>
+                    <h5><u>Make:</u> {{ item.make }}</h5>
+                    <h5><u>Model:</u> {{ item.model }}</h5>
+                    <h5><u>Build year:</u> {{ item.build_year }}</h5>
                 </div>
                 <p class="mt-2">Description: {{ item.description }}</p>
                 <div>
                     <a href="{% url 'edit item' item.pk %}" class="btn btn-success">Edit</a>
                     <a href="{% url 'delete item' item.pk %}" class="btn btn-danger">Delete</a>
                 </div>
-                <a href="{% url 'like item' item.id %}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-                {#            <a href="/items/like/{{ item.id }}/"><i class="fa fa-heart-o" aria-hidden="true"></i></a>#}
+                <div style="padding-top: 3%">
+                {% if like %}
+                    <a href="{% url 'like item' item.pk %}"><i class="fa fa-thumbs-down" aria-hidden="true"></i>  <em><b>UnLike</b></em></a>
+                {% else %}
+                    <a href="{% url 'like item' item.pk %}"><i class="fa fa-thumbs-up" aria-hidden="true"></i>  <em><b>Like</b></em></a>
+                {% endif %}
+                </div>
                 <p class="mt-2">Likes: {{ item.like_set.count }}</p>
             </div>
         </div>

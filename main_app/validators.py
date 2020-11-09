@@ -1,9 +1,9 @@
 from django.core.exceptions import ValidationError
 
 
-def budget_validator(value):
-    if value <= 0:
-        raise ValidationError('Amount cannot be zero or negative')
+def year_validator(value):
+    if value <= 1900 or value > 2020:
+        raise ValidationError('Build year must be between 1900 and 2020!')
 
 
 def availability_validator(value):

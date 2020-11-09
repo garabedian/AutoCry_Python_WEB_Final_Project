@@ -1,5 +1,5 @@
 {% extends 'landing_page.html' %}
-
+{% load static %}
 {% block content %}
     <div class="container">
         <h1 class="text-center">Add new item photo</h1>
@@ -9,10 +9,26 @@
                 <form method="post" class="furniture-form">
                     {% csrf_token %}
                     {{ form }}
+                    {% if item.image_url %}
+                        <img id="img_preview" src="{{ item.image_url }}" class="w-50 rounded mx-auto d-block"/>
+                    {% else %}
+                        <img id="img_preview" src="{% static 'images/car.png' %}" class="w-50 rounded mx-auto d-block"/>
+                    {% endif %}
                     <button class="btn btn-primary mt-2" type="submit">Create</button>
                 </form>
             </div>
             <div class="col-lg-3"></div>
         </div>
     </div>
-{%  endblock content %}
+    {#    Script changing immediately the old with new photo#}
+    <script>
+        function updateImage() {
+            let img = document.getElementById('img_preview');
+            let url = this.value;
+            img.src = url;
+        }
+
+        document.getElementById('img_input')
+            .addEventListener('input', updateImage);
+    </script>
+{% endblock content %}
