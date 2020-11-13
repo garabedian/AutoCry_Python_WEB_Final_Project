@@ -2,33 +2,17 @@
 {% load static %}
 {% block content %}
     <div class="container">
-        <h1 class="text-center">Add new item photo</h1>
+        <h1 class="text-center">Add new item details</h1>
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
-                <form method="post" class="furniture-form">
+                <form method="post" class="furniture-form" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form }}
-                    {% if item.image_url %}
-                        <img id="img_preview" src="{{ item.image_url }}" class="w-50 rounded mx-auto d-block"/>
-                    {% else %}
-                        <img id="img_preview" src="{% static 'images/car.png' %}" class="w-50 rounded mx-auto d-block"/>
-                    {% endif %}
-                    <button class="btn btn-primary mt-2" type="submit">Create</button>
+                    {% include 'items/item_no_image_data.html' %}
+                    {% include 'items/image_upload.html' %}
                 </form>
             </div>
             <div class="col-lg-3"></div>
         </div>
     </div>
-    {#    Script changing immediately the old with new photo#}
-    <script>
-        function updateImage() {
-            let img = document.getElementById('img_preview');
-            let url = this.value;
-            img.src = url;
-        }
-
-        document.getElementById('img_input')
-            .addEventListener('input', updateImage);
-    </script>
 {% endblock content %}

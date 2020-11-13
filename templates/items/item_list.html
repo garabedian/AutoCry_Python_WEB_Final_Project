@@ -8,11 +8,12 @@
                 <div class="col-lg-4">
                     <div class="card" style="width: 18rem;">
                         <img src="{{ item.image_url }}" class="card-img-top" alt="image of {{ item.name }}">
+                        <img src="{{ item.image_file }}" class="card-img-top" alt="image of {{ item.name }}">
+                        <img src="{{ item.image_url }}" class="card-img-top" alt="image of {{ item.name }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ item.type }} {{ item.name }}, Age: {{ item.age }} </h5>
                             <p class="card-text">{{ item.description }}</p>
                             <a href="{% url 'item details or comment' item.id %}" class="btn btn-primary">See details</a>
-    {#                        <a href="/items/details/{{ item.id }}/" class="btn btn-primary">See details</a>#}
                         </div>
                     </div>
                 </div>

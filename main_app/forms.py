@@ -36,7 +36,14 @@ class ItemForm(forms.ModelForm):
         widgets = {
             'image_url': forms.TextInput(
                 attrs={
-                    'id': 'img_input',
+                    'id': 'img_url_input',
+                }
+            ),
+            'image_file': forms.FileInput(
+                attrs={
+                    'class': 'custom-file-input',
+                    'id': 'img_file_input',
+                    'onchange': 'readURL(this);',
                 }
             )
         }

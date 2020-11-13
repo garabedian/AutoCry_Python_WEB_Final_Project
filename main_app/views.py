@@ -1,3 +1,4 @@
+from django.core.files import File
 from django.shortcuts import render, redirect
 
 from main_app.forms import ItemForm, CommentForm
@@ -61,8 +62,10 @@ def persist_item(request, item, template_name):
 
         return render(request, f'items/{template_name}.html', context)
     else:
+
         form = ItemForm(
             request.POST,
+            request.FILES,
             instance=item
         )
         if form.is_valid():
@@ -97,4 +100,5 @@ def delete_item(request, pk):
         return render(request, 'items/item_delete.html', context)
     else:
         item.delete()
+
         return redirect('list items')
