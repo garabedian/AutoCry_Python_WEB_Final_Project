@@ -22,12 +22,10 @@ class Item(models.Model):
 
     WEB_Image = 'web_image'
     Local_Image = 'local_image'
-    No_Image = 'no_image'
 
     IMAGE_TYPES = (
         (WEB_Image, 'WEB Image'),
-        (Local_Image, 'Local Image'),
-        (No_Image, 'No Image'),
+        (Local_Image, 'Local or No Image'),
     )
 
     type = models.CharField(max_length=9, choices=ITEM_TYPES, default=UNKNOWN)
