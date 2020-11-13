@@ -1,4 +1,3 @@
-from django.core.files import File
 from django.shortcuts import render, redirect
 
 from main_app.forms import ItemForm, CommentForm
@@ -63,19 +62,29 @@ def persist_item(request, item, template_name):
         return render(request, f'items/{template_name}.html', context)
     else:
 
+        old_image_url = item.image_url
+        old_image_file = item.image_file
+
         form = ItemForm(
             request.POST,
             request.FILES,
             instance=item
         )
+
         if form.is_valid():
-            form.save()
+            entry = form.save(commit=False)
+            if entry.image_type == 'local_image':
+                entry.image_url = ''
+            entry.save()
             return redirect('item details or comment', item.pk)
 
         context = {
             'form': form,
             'item': item,
         }
+
+        item.image_url = old_image_url
+        item.image_file = old_image_file
 
         return render(request, f'items/{template_name}.html', context)
 

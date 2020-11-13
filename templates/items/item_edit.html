@@ -10,7 +10,7 @@
                     {% csrf_token %}
                     {{ form }}
 {#                    <img id="img_preview" src="{{ item.image_url }}" class="w-50 rounded mx-auto d-block"/>#}
-                    <img id="img_preview" src="{{ item.image_file.url }}" class="w-50 rounded mx-auto d-block"/>
+                    <img id="img_preview" src="{{ item.image_file.url }}" class="w-50 rounded mx-auto d-block" alt="Image goes here"/>
                     <button class="btn btn-primary mt-2" type="submit">Edit</button>
                 </form>
             </div>
