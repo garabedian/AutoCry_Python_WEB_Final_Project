@@ -27,7 +27,7 @@ class ItemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        for (_, field) in self.fields.items():
+        for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
 
     class Meta:
@@ -41,7 +41,7 @@ class ItemForm(forms.ModelForm):
             ),
             'image_file': forms.FileInput(
                 attrs={
-                    'class': 'custom-file-input',
+                    # 'class': 'custom-file-input',   # cannot override existing "class" attribute
                     'id': 'img_file_input',
                     'onchange': 'readURL(this);',
                 }

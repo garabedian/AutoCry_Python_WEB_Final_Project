@@ -14,7 +14,7 @@
             </div>
             <div id="image_file_input">
                 <h3 class="text-center">Add new photo from Local PC</h3>
-                <label for="{{ item.image_file.id_for_label }}">Local Image Upload (Leave it blank for No Image)</label>
+                <label for="{{ form.image_file.id_for_label }}">Local Image Upload (Leave it blank for No Image)</label>
                 {{ form.image_file }}
                 {{ form.image_file.errors }}
                 <img id="local_img_preview" src="{{ item.image_file.url }}" class="w-50 rounded mx-auto d-block"
