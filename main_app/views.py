@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
-
-from main_app.forms import ItemForm, CommentForm
+from main_app.forms import ItemForm, CommentForm, DeleteItemForm
 from main_app.models import Item, Like, Comment
 
 
@@ -29,6 +28,7 @@ def details_or_comment_item(request, pk):
             # comment = Comment(comment=form.cleaned_data['text'])      # Pure Form class used
             comment = Comment(comment=form.cleaned_data['comment'])  # ModelForm class used
             comment.item = item  # Attach ForeignKey
+            comment.author = request.user
             comment.save()
             return redirect('item details or comment', pk)
         context = {
@@ -46,6 +46,7 @@ def like_item(request, pk):
     else:
         like = Like()
         like.item = item
+        like.author = request.user
         like.save()
     return redirect('item details or comment', pk)
 
@@ -75,6 +76,8 @@ def persist_item(request, item, template_name):
             entry = form.save(commit=False)
             if entry.image_type == 'local_image':
                 entry.image_url = ''
+            entry.author = request.user
+            entry.publish()
             entry.save()
             return redirect('item details or comment', item.pk)
 
@@ -102,7 +105,9 @@ def create_item(request):
 def delete_item(request, pk):
     item = Item.objects.get(pk=pk)
     if request.method == 'GET':
+        form = DeleteItemForm(instance=item)
         context = {
+            'form': form,
             'item': item,
         }
 

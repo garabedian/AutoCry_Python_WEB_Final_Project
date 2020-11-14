@@ -32,7 +32,7 @@ class ItemForm(forms.ModelForm):
 
     class Meta:
         model = Item
-        fields = '__all__'
+        fields = ('type', 'make', 'model', 'build_year', 'description', 'image_type', 'image_url', 'image_file')
         widgets = {
             'image_url': forms.TextInput(
                 attrs={

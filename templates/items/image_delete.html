@@ -1,0 +1,18 @@
+{% extends 'landing_page.html' %}
+{% load static %}
+{% block content %}
+    <div class="container text-center">
+        {% if item.image_url %}
+            <div id="image_url_input">
+                <img id="web_img_preview"
+                     src="{{ item.image_url|default:"https://s.clipartkey.com/mpngs/s/39-392476_transparent-jeep-clipart-audi-a4-2014-front.png" }}"
+                     class="w-50 rounded mx-auto d-block" alt="Image goes here!"/>
+            </div>
+        {% elif item.image_file.url %}
+            <div id="image_file_input">
+                <img id="local_img_preview" src="{{ item.image_file.url }}" class="w-50 rounded mx-auto d-block"
+                     alt="Image goes here!"/>
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

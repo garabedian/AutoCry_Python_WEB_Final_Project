@@ -21,8 +21,8 @@
                 </div>
                 <p class="mt-2">Description: {{ item.description }}</p>
                 <div>
-                    <a href="{% url 'edit item' item.pk %}" class="btn btn-success">Edit</a>
-                    <a href="{% url 'delete item' item.pk %}" class="btn btn-danger">Delete</a>
+                    <a href="{% url 'edit item' item.id %}" class="btn btn-success">Edit</a>
+                    <a href="{% url 'delete item' item.id %}" class="btn btn-danger">Delete</a>
                 </div>
                 <div style="padding-top: 3%">
                     {% if like %}
