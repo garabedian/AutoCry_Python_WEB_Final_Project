@@ -14,22 +14,24 @@
             </div>
             <div class="d-inline p-2 w-50">
                 <div class="d-flex justify-content-between">
-                    <h5><u>Type:</u> {{ item.type }}</h5>
-                    <h5><u>Make:</u> {{ item.make }}</h5>
-                    <h5><u>Model:</u> {{ item.model }}</h5>
-                    <h5><u>Build year:</u> {{ item.build_year }}</h5>
+                    <ul>
+                        <li><h5><em>Type:</em> {{ item.type|capfirst }}</h5></li>
+                        <li><h5><em>Make:</em> {{ item.make }}</h5></li>
+                        <li><h5><em>Model:</em> {{ item.model }}</h5></li>
+                        <li><h5><em>Build year:</em> {{ item.build_year }}</h5></li>
+                    </ul>
                 </div>
-                <p class="mt-2">Description: {{ item.description }}</p>
+                <p class="mt-2">Description: {{ item.description|linebreaks }}</p>
                 <div>
                     <a href="{% url 'edit item' item.id %}" class="btn btn-success">Edit</a>
                     <a href="{% url 'delete item' item.id %}" class="btn btn-danger">Delete</a>
                 </div>
                 <div style="padding-top: 3%">
                     {% if like %}
-                        <a href="{% url 'like item' item.pk %}"><i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                        <a href="{% url 'like item' item.pk %}" style="color: red" ><i class="fa fa-thumbs-down fa-3x" aria-hidden="true"></i>
                             <em><b>UnLike</b></em></a>
                     {% else %}
-                        <a href="{% url 'like item' item.pk %}"><i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                        <a href="{% url 'like item' item.pk %}" style="color: green" ><i class="fa fa-thumbs-up fa-3x" aria-hidden="true"></i>
                             <em><b>Like</b></em></a>
                     {% endif %}
                 </div>
