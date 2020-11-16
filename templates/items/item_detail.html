@@ -40,7 +40,19 @@
         </div>
     </div>
     <div class="d-block" style="background-color: #f1e3e3; padding:2%">
+        <div class="box">
+            <form method="post" action="{% url 'item details or comment' item.pk %}">
+                {% csrf_token %}
+                {{ form }}
+                <button class="btn btn-primary mt-2" type="submit">Add comment</button>
+            </form>
+        </div>
         {% if item.comment_set.count > 0 %}
+            <div class="box">
+            <hr>
+                <h4 class="text-lg-center" style="color: #6f42c1"><u>Users' comments uploaded:</u></h4>
+                <hr>
+            </div>
             {% for comment in item.comment_set.all %}
                 <div class="box">
                     <h5><em>{{ comment.comment }}</em></h5>
@@ -52,12 +64,5 @@
                 <h3>There are no comments for this item. </h3>
             </div>
         {% endif %}
-        <div class="box">
-            <form method="post" action="{% url 'item details or comment' item.pk %}">
-                {% csrf_token %}
-                {{ form }}
-                <button class="btn btn-primary mt-2" type="submit">Add comment</button>
-            </form>
-        </div>
     </div>
 {% endblock content %}
