@@ -1,4 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+
+from autocry_core.decorators import allowed_groups
 from main_app.forms import ItemForm, CommentForm, DeleteItemForm
 from main_app.models import Item, Like, Comment
 
@@ -39,6 +42,8 @@ def details_or_comment_item(request, pk):
         return render(request, 'items/item_detail.html', context)
 
 
+# @login_required(login_url='login user')
+@allowed_groups(allowed_roles=['superusers', 'users'])
 def like_item(request, pk):
     item = Item.objects.get(pk=pk)
     if Like.objects.filter(item_id=pk).exists():
@@ -92,16 +97,22 @@ def persist_item(request, item, template_name):
         return render(request, f'items/{template_name}.html', context)
 
 
+# @login_required(login_url='login user')
+@allowed_groups(allowed_roles=['superusers', 'users'])
 def edit_item(request, pk):
     item = Item.objects.get(pk=pk)
     return persist_item(request, item, 'item_edit')
 
 
+# @login_required(login_url='login user')
+@allowed_groups(allowed_roles=['superusers', 'users'])
 def create_item(request):
     item = Item()
     return persist_item(request, item, 'item_create')
 
 
+# @login_required(login_url='login user')
+@allowed_groups(allowed_roles=['superusers', 'users'])
 def delete_item(request, pk):
     item = Item.objects.get(pk=pk)
     if request.method == 'GET':

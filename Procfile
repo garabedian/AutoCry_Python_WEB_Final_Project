@@ -1,1 +1,1 @@
-"web: gunicorn autocry.wsgi --log-file -"
+web: gunicorn autocry.wsgi --log-file -
