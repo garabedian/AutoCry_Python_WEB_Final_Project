@@ -15,17 +15,6 @@ function updateImage() {
     if (getSelectedType() === 'web_image') img.src = url;
 }
 
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        let reader = new FileReader();
-        reader.onload = function (e) {
-            console.log(e.target.result)
-            document.getElementById('local_img_preview').src = e.target.result;
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
 function getSelectedType() {
 // Script getting selected value from dropdown
     let el = document.getElementById('id_image_type');

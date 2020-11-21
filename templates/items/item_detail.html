@@ -23,15 +23,19 @@
                 </div>
                 <p class="mt-2">Description: {{ item.description|linebreaks }}</p>
                 <div>
-                    <a href="{% url 'edit item' item.id %}" class="btn btn-success">Edit</a>
-                    <a href="{% url 'delete item' item.id %}" class="btn btn-danger">Delete</a>
+                    {% if python.can_delete %}
+                        <a href="{% url 'edit item' item.id %}" class="btn btn-success">Edit</a>
+                        <a href="{% url 'delete item' item.id %}" class="btn btn-danger">Delete</a>
+                    {% endif %}
                 </div>
                 <div style="padding-top: 3%">
                     {% if like %}
-                        <a href="{% url 'like item' item.pk %}" style="color: red" ><i class="fa fa-thumbs-down fa-3x" aria-hidden="true"></i>
+                        <a href="{% url 'like item' item.pk %}" style="color: red"><i class="fa fa-thumbs-down fa-3x"
+                                                                                      aria-hidden="true"></i>
                             <em><b>UnLike</b></em></a>
                     {% else %}
-                        <a href="{% url 'like item' item.pk %}" style="color: green" ><i class="fa fa-thumbs-up fa-3x" aria-hidden="true"></i>
+                        <a href="{% url 'like item' item.pk %}" style="color: green"><i class="fa fa-thumbs-up fa-3x"
+                                                                                        aria-hidden="true"></i>
                             <em><b>Like</b></em></a>
                     {% endif %}
                 </div>
@@ -49,7 +53,7 @@
         </div>
         {% if item.comment_set.count > 0 %}
             <div class="box">
-            <hr>
+                <hr>
                 <h4 class="text-lg-center" style="color: #6f42c1"><u>Users' comments uploaded:</u></h4>
                 <hr>
             </div>

@@ -1,0 +1,22 @@
+{% extends 'landing_page.html' %}
+{% load static %}
+{% block content %}
+    {% load bootstrap4 %}
+    <h1 class="text-center">Register</h1>
+    <div class="row d-flex justify-content-center">
+        <form method="POST" action="{% url 'register user' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form user_form %}
+            {% bootstrap_form profile_form %}
+            <div id="image_file_input">
+                <img id="local_img_preview" src="{{ profile_form.instance.profile_image.url }}" class="w-50 rounded mx-auto d-block"
+                     alt="Image goes here!"/>
+            </div>
+            {% buttons %}
+                <button class="btn btn-primary">Submit</button>
+                <p>or <a href="{% url 'login user' %}">login</a></p>
+            {% endbuttons %}
+        </form>
+    </div>
+    <script src="/static/js/local_image_preview.js"></script>
+{% endblock content %}

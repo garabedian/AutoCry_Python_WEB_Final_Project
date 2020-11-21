@@ -1,15 +1,24 @@
 {% extends 'landing_page.html' %}
-
+{% load bootstrap4 %}
 {% block content %}
     <div class="container">
-    <h1 class='text-center'>All vehicles</h1>
-            {% if items %}
-        <div class="row">
+        <h1 class='text-center'>All vehicles</h1>
+        {% if items %}
+            <div class="w-100 text-center">
+
+                <form class="d-lg-inline-block" method="get" action="{% url 'list items' %}">
+                    {% csrf_token %}
+                    {% bootstrap_form filter_form %}
+                    <button>Filter</button>
+                </form>
+
+            </div>
+            <div class="row">
                 {% for item in items %}
                     <div class="col-lg-4">
                         <div class="card" style="width: 18rem">
                             <div class="card-body">
-                                <h5 class="card-title">{{ item.type }} {{ item.name }}, Age: {{ item.age }} </h5>
+                                <h5 class="card-title">{{ item.type|capfirst }}: {{ item.make }}-{{ item.model }}</h5>
                                 <p class="card-text">{{ item.description }}</p>
                             </div>
                             <div class="border" style="height: 18rem">
@@ -21,8 +30,8 @@
                                          alt="image of {{ item.name }}">
                                 {% endif %}
                             </div>
-                            <div class="card-body text-center">
-                                <div class="row">
+                            <div class="card-body">
+                                <div class="row text-justify">
                                     <div class="col-lg-6">
                                         <p class="lead text-center">
                                             <a href="{% url 'item details or comment' item.id %}"
@@ -31,7 +40,11 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <p class="lead text-center">
-                                            <a href="{% url 'edit item' item.id %}" class="btn btn-success">Edit</a>
+                                            {% if item.can_edit %}
+                                                <a href="{% url 'edit item' item.id %}" class="btn btn-success">Edit</a>
+                                            {% else %}
+                                                <a href="" class="btn btn-success">Added by: <em>{{ item.creator }}</em></a>
+                                            {% endif %}
                                         </p>
                                     </div>
                                 </div>
@@ -39,18 +52,29 @@
                         </div>
                     </div>
                 {% endfor %}
-        </div>
-            {% else %}
-                <div><br></div>
-                <div><br></div>
-                <div><br></div>
-                <div>
-                    <h3 class='text-center'><em>There are no vehicles yet. You are the lucky "Creator".</em></h3>
-                    <br>
-                    <p class="lead text-center">
-                        <a href="{% url 'create item' %}" class="btn btn-success">Create your first vehicle</a>
-                    </p>
-                </div>
-            {% endif %}
+            </div>
+        {% elif item.empty %}
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div>
+                <h3 class='text-center'><em>There are no vehicles yet. You are the lucky "Creator".</em></h3>
+                <br>
+                <p class="lead text-center">
+                    <a href="{% url 'create item' %}" class="btn btn-success">Create your first vehicle</a>
+                </p>
+            </div>
+        {% else %}
+            <div><br></div>
+            <div><br></div>
+            <div><br></div>
+            <div>
+                <h3 class='text-center'><em>There are no vehicles matching your filter criteria.</em></h3>
+                <br>
+                <p class="lead text-center">
+                    <a href="{% url 'list items' %}" class="btn btn-success">Go back to full list</a>
+                </p>
+            </div>
+        {% endif %}
     </div>
 {% endblock content %}

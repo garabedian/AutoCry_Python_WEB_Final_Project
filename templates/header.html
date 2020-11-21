@@ -1,11 +1,23 @@
+{% load static %}
+{% load bootstrap4 %}
+<link rel="stylesheet" href="{% static '/css/custom.css' %}">
 <nav class="fixed-top navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom:2%">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+    <pre> </pre>
+    <img style="height: 40px; width: 40px; display: block;" src="{% static 'images/car.png' %}" alt=""/>
+    <pre>  </pre>
+    <div>
+        <a style="color: wheat" href="{% url 'landing' %}"><h3>Auto Cry</h3></a>
+    </div>
+    <pre>  </pre>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-            <a class="nav-link" href="{% url 'landing' %}">Home</a>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'landing' %}">Home</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'list items' %}">All vehicles</a>
             </li>
@@ -16,9 +28,13 @@
     </div>
     <ul class="navbar-nav">
         {% if user.is_authenticated %}
+            <img style="vertical-align: middle; width: 40px; height: 40px; border-radius: 50%;"
+                 src="{{ user.userprofile.profile_image.url }}" alt="Avatar" class="avatar">
             <a class="nav-link float-right" href="{% url 'logout user' %}">Hello, {{ user.username }}! Logout</a>
         {% else %}
             <a class="nav-link float-right" href="{% url 'login user' %}">Login</a>
+            <a class="nav-link float-right" href="{% url 'register user' %}">Register</a>
         {% endif %}
     </ul>
+    <pre> </pre>
 </nav>

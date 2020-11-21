@@ -38,9 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django_cleanup',
+    'bootstrap4',
+
     'main_app',
     'auth_app',
-    'django_cleanup',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +84,7 @@ WSGI_APPLICATION = 'autocry.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'autocry',
+        'NAME': 'auto_cry',
         'USER': 'postgres',
         'PASSWORD': 'admin'
     }
@@ -132,3 +135,5 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
+
+LOGIN_URL = '/auth_app/login/'

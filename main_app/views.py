@@ -1,9 +1,20 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.contrib.auth import get_user_model
 
 from autocry_core.decorators import allowed_groups
-from main_app.forms import ItemForm, CommentForm, DeleteItemForm
+from main_app.forms import ItemForm, CommentForm, DeleteItemForm, FilterForm
 from main_app.models import Item, Like, Comment
+
+
+def extract_filter_values(params):
+    order = params['order'] if 'order' in params else FilterForm.ORDER_ASC
+    text = params['text'] if 'text' in params else ''
+
+    return {
+        'order': order,
+        'text': text,
+    }
 
 
 # Create your views here.
@@ -12,8 +23,28 @@ def landing_page(request):
 
 
 def list_items(request):
+    params = extract_filter_values(request.GET)
+    choices = {
+        FilterForm.ORDER_ASC: 'make',
+        FilterForm.ORDER_DESC: '-make',
+        FilterForm.DATE_ASC: 'published_date',
+        FilterForm.DATE_DESC: '-published_date',
+    }
+    order_by = choices[params['order']]
+    items = Item.objects.filter(make__icontains=params['text']).order_by(order_by)
+
+    user = get_user_model()
+    users = user.objects.all()
+
+    for item in items:
+        item.can_edit = item.author_id == request.user.id or request.user.is_superuser
+        creator = users.filter(id=item.author_id)
+        item.creator = creator[0].username
+        item.empty = Item.objects.all().count() <= 0
+
     context = {
-        'items': Item.objects.all(),
+        'items': items,
+        'filter_form': FilterForm(initial=params),
     }
 
     return render(request, 'items/item_list.html', context)

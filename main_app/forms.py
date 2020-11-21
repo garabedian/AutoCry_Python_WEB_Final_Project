@@ -53,3 +53,26 @@ class DeleteItemForm(ItemForm, DisabledFormMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         DisabledFormMixin.__init__(self)
+
+
+# Adding filter fields for items' listing
+class FilterForm(forms.Form):
+    ORDER_ASC = 'asc'
+    ORDER_DESC = 'desc'
+    DATE_ASC = 'date_asc'
+    DATE_DESC = 'date_desc'
+
+    ORDER_CHOICES = (
+        (ORDER_ASC, 'Name - ascending'),
+        (ORDER_DESC, 'Name - descending'),
+        (DATE_ASC, 'Published - ascending'),
+        (DATE_DESC, 'Published - descending'),
+    )
+
+    text = forms.CharField(
+        required=False,
+    )
+    order = forms.ChoiceField(
+        choices=ORDER_CHOICES,
+        required=False,
+    )
