@@ -6,6 +6,8 @@ from autocry_core.decorators import allowed_groups
 from main_app.forms import ItemForm, CommentForm, DeleteItemForm, FilterForm
 from main_app.models import Item, Like, Comment
 
+def liked_already(pk, current_user):
+    return Like.objects.filter(item_id=pk).filter(author_id=current_user).exists()
 
 def extract_filter_values(params):
     order = params['order'] if 'order' in params else FilterForm.ORDER_ASC
@@ -33,8 +35,7 @@ def list_items(request):
     order_by = choices[params['order']]
     items = Item.objects.filter(make__icontains=params['text']).order_by(order_by)
 
-    user = get_user_model()
-    users = user.objects.all()
+    users = get_user_model().objects.all()
 
     for item in items:
         item.can_edit = item.author_id == request.user.id or request.user.is_superuser
@@ -50,10 +51,23 @@ def list_items(request):
     return render(request, 'items/item_list.html', context)
 
 
+@allowed_groups(allowed_roles=['superusers', 'users'])
 def details_or_comment_item(request, pk):
     item = Item.objects.get(pk=pk)
     if request.method == 'GET':
-        context = dict(item=item, form=CommentForm(), like=Like.objects.filter(item_id=pk).exists())
+
+        users = {}   # id: name
+        for user in get_user_model().objects.all():
+            users[user.id] = user.username
+
+        current_user = request.user
+        item.can_edit = item.author_id == current_user.id or current_user.is_superuser
+        item.can_like = liked_already(pk, current_user)
+
+        context = dict(item=item,
+                       form=CommentForm(),
+                       like=Like.objects.filter(item_id=pk).exists(),
+                       users=users)
 
         return render(request, 'items/item_detail.html', context)
     else:
@@ -77,12 +91,13 @@ def details_or_comment_item(request, pk):
 @allowed_groups(allowed_roles=['superusers', 'users'])
 def like_item(request, pk):
     item = Item.objects.get(pk=pk)
-    if Like.objects.filter(item_id=pk).exists():
-        Like.objects.filter(item_id=pk).delete()
+    current_user = request.user
+    if liked_already(pk, current_user):
+        Like.objects.filter(item_id=pk).filter(author_id=current_user).delete()
     else:
         like = Like()
         like.item = item
-        like.author = request.user
+        like.author = current_user
         like.save()
     return redirect('item details or comment', pk)
 

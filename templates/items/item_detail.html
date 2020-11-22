@@ -23,13 +23,13 @@
                 </div>
                 <p class="mt-2">Description: {{ item.description|linebreaks }}</p>
                 <div>
-                    {% if python.can_delete %}
+                    {% if item.can_edit %}
                         <a href="{% url 'edit item' item.id %}" class="btn btn-success">Edit</a>
                         <a href="{% url 'delete item' item.id %}" class="btn btn-danger">Delete</a>
                     {% endif %}
                 </div>
                 <div style="padding-top: 3%">
-                    {% if like %}
+                    {% if item.can_like %}
                         <a href="{% url 'like item' item.pk %}" style="color: red"><i class="fa fa-thumbs-down fa-3x"
                                                                                       aria-hidden="true"></i>
                             <em><b>UnLike</b></em></a>
@@ -59,7 +59,12 @@
             </div>
             {% for comment in item.comment_set.all %}
                 <div class="box">
-                    <h5><em>{{ comment.comment }}</em></h5>
+                    {% for key, value in users.items %}
+                        {%  if key == comment.author_id %}
+                            <h5><em><u>"{{ value }}"  &ensp;wrote:</u></em></h5>
+                        {% endif %}
+                    {% endfor %}
+                    <h5>{{ comment.comment }}</h5>
                     <hr>
                 </div>
             {% endfor %}

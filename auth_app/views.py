@@ -1,10 +1,12 @@
+import os
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import redirect, render
-from django.utils import timezone
 from django.contrib.auth.models import Group
 from auth_app.forms import LoginForm, RegisterForm, ProfileForm
+from django.core.files.storage import default_storage
+from django.conf import settings
 
 
 @transaction.atomic
@@ -20,6 +22,7 @@ def register_user(request):
     user_form = RegisterForm(request.POST)
     profile_form = ProfileForm(request.POST, request.FILES)
 
+
     if user_form.is_valid() and profile_form.is_valid():
         user = user_form.save()
         user.save()
@@ -34,11 +37,25 @@ def register_user(request):
         login(request, user)
         return redirect('landing')
 
+    # #  Saving POSTed file to storage
+    # file = request.FILES['profile_image']
+    # file_name = default_storage.save(file.name, file)
+    #
+    # # Reading file from storage. Opening the file prevents from deleting.
+    # # file = default_storage.open(file_name)
+    # # file_url = default_storage.url(file_name)
+    #
+    # # Cleaning the temporary storage, used to make image "default
+    # project_root = settings.MEDIA_ROOT
+    # path_to_file = os.path.join(project_root, file_name)
+    # if os.path.isfile(path_to_file):
+    #     os.remove(path_to_file)
+
     context = {
         'user_form': user_form,
         'profile_form': profile_form,
     }
-    # x = 2
+
     return render(request, 'users/register.html', context)
 
 

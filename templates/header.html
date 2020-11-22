@@ -32,6 +32,7 @@
                  src="{{ user.userprofile.profile_image.url }}" alt="Avatar" class="avatar">
             <a class="nav-link float-right" href="{% url 'logout user' %}">Hello, {{ user.username }}! Logout</a>
         {% else %}
+            <a class="nav-link float-right">Hello, newcomer!</a>
             <a class="nav-link float-right" href="{% url 'login user' %}">Login</a>
             <a class="nav-link float-right" href="{% url 'register user' %}">Register</a>
         {% endif %}

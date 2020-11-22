@@ -63,8 +63,8 @@ class FilterForm(forms.Form):
     DATE_DESC = 'date_desc'
 
     ORDER_CHOICES = (
-        (ORDER_ASC, 'Name - ascending'),
-        (ORDER_DESC, 'Name - descending'),
+        (ORDER_ASC, 'Make - ascending'),
+        (ORDER_DESC, 'Make - descending'),
         (DATE_ASC, 'Published - ascending'),
         (DATE_DESC, 'Published - descending'),
     )
