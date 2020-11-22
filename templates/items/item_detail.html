@@ -61,7 +61,7 @@
                 <div class="box">
                     {% for key, value in users.items %}
                         {%  if key == comment.author_id %}
-                            <h5><em><u>"{{ value }}"  &ensp;wrote:</u></em></h5>
+                            <h5><em><u>Written by &nbsp;<span style="color: red">"{{ value }}"</span> &nbsp;on {{ comment.published }}:</u></em></h5>
                         {% endif %}
                     {% endfor %}
                     <h5>{{ comment.comment }}</h5>

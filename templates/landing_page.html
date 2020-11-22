@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
+    {#    Animation downloaded from https://animate.style/#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
     <link rel="icon" type="image/png" href="{% static 'images/car.png' %}">
     <link rel="stylesheet" href="{% static '/css/custom.css' %}">
 </head>
@@ -31,17 +34,17 @@
                 <img style="width: 100%"
                      src="{% static 'images/group of cars.jpg' %}" alt="">
                 <div class="absolute">
-                    <h1 class="display-4 text-center"><strong>Welcome to Auto Cry</strong></h1>
-                    <p class="lead text-lg-center"><em><strong>Share the cars and vehicles you own or
+                    <h1 class="display-4 text-center animate__animated animate__bounceInLeft"><strong>Welcome to Auto Cry</strong></h1>
+                    <p class="lead text-lg-center animate__animated animate__bounceInRight"><em><strong>Share the cars and vehicles you own or
                         like.</strong></em>
                     </p>
                     <hr class="my-4">
-                    <div class="inner cover">
+                    <div class="inner cover animate__animated  animate__zoomInUp">
                         <h1 class="cover-heading"></h1>
                         <div class="row">
                             <div class="col-lg-6">
                                 <p class="lead">Registered user? <br><a href="{% url 'login user' %}"
-                                                                                class="btn btn-lg btn-secondary">sign
+                                                                        class="btn btn-lg btn-secondary">sign
                                     in</a></p>
                             </div>
                             <div class="col-lg-6">
@@ -51,14 +54,14 @@
                             </div>
                         </div>
                     </div>
-
                     <hr class="my-4">
-                    <div class="inner cover">
+                    <div class="inner cover animate__animated animate__zoomIn">
                         <h1 class="cover-heading"></h1>
                         <div class="row">
                             <div class="col-lg-6">
                                 <p class="lead text-right">Free public zone&ensp;<br>
-                                    <a href="{% url 'list items' %}" class="btn btn-lg btn-secondary">List all vehicles</a></p>
+                                    <a href="{% url 'list items' %}" class="btn btn-lg btn-secondary">List all
+                                        vehicles</a></p>
                             </div>
                             <div class="col-lg-6">
                                 <p class="lead">Logged in users can<br>
@@ -68,7 +71,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         {% endblock content %}

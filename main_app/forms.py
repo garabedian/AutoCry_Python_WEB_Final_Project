@@ -69,7 +69,7 @@ class FilterForm(forms.Form):
         (DATE_DESC, 'Published - descending'),
     )
 
-    text = forms.CharField(
+    make = forms.CharField(
         required=False,
     )
     order = forms.ChoiceField(

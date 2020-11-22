@@ -6,20 +6,21 @@ from autocry_core.decorators import allowed_groups
 from main_app.forms import ItemForm, CommentForm, DeleteItemForm, FilterForm
 from main_app.models import Item, Like, Comment
 
+
 def liked_already(pk, current_user):
     return Like.objects.filter(item_id=pk).filter(author_id=current_user).exists()
 
+
 def extract_filter_values(params):
     order = params['order'] if 'order' in params else FilterForm.ORDER_ASC
-    text = params['text'] if 'text' in params else ''
+    make = params['make'] if 'make' in params or 'model' in params else ''
 
     return {
         'order': order,
-        'text': text,
+        'make': make,
     }
 
 
-# Create your views here.
 def landing_page(request):
     return render(request, 'landing_page.html')
 
@@ -33,7 +34,10 @@ def list_items(request):
         FilterForm.DATE_DESC: '-published_date',
     }
     order_by = choices[params['order']]
-    items = Item.objects.filter(make__icontains=params['text']).order_by(order_by)
+
+    items_make = Item.objects.filter(make__icontains=params['make'])
+    items_model = Item.objects.filter(model__icontains=params['make'])
+    items = (items_make | items_model).order_by(order_by)
 
     users = get_user_model().objects.all()
 
@@ -41,11 +45,11 @@ def list_items(request):
         item.can_edit = item.author_id == request.user.id or request.user.is_superuser
         creator = users.filter(id=item.author_id)
         item.creator = creator[0].username
-        item.empty = Item.objects.all().count() <= 0
 
     context = {
         'items': items,
         'filter_form': FilterForm(initial=params),
+        'items_empty': Item.objects.all().count() <= 0,
     }
 
     return render(request, 'items/item_list.html', context)
@@ -56,7 +60,7 @@ def details_or_comment_item(request, pk):
     item = Item.objects.get(pk=pk)
     if request.method == 'GET':
 
-        users = {}   # id: name
+        users = {}  # id: name
         for user in get_user_model().objects.all():
             users[user.id] = user.username
 
@@ -77,6 +81,7 @@ def details_or_comment_item(request, pk):
             comment = Comment(comment=form.cleaned_data['comment'])  # ModelForm class used
             comment.item = item  # Attach ForeignKey
             comment.author = request.user
+            comment.publish()
             comment.save()
             return redirect('item details or comment', pk)
         context = {

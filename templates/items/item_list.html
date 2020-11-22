@@ -5,20 +5,18 @@
         <h1 class='text-center'>All vehicles</h1>
         {% if items %}
             <div class="w-100 text-center">
-
                 <form class="d-lg-inline-block" method="get" action="{% url 'list items' %}">
                     {% csrf_token %}
                     {% bootstrap_form filter_form %}
                     <button>Filter</button>
                 </form>
-
             </div>
             <div class="row">
                 {% for item in items %}
                     <div class="col-lg-4">
                         <div class="card" style="width: 18rem">
                             <div class="card-body">
-                                <h5 class="card-title">{{ item.type|capfirst }}: {{ item.make }}-{{ item.model }}</h5>
+                                <h5 class="card-title">{{ item.type|capfirst }}: <span style="color: red">{{ item.make }}</span> - {{ item.model }}</h5>
                                 <p class="card-text">{{ item.description }}</p>
                             </div>
                             <div class="border" style="height: 18rem">
@@ -31,29 +29,22 @@
                                 {% endif %}
                             </div>
                             <div class="card-body">
-                                <div class="row text-justify">
-                                    <div class="col-lg-6">
-                                        <p class="lead text-center">
+                                <div class="row evenly-distributed-buttons">
                                             <a href="{% url 'item details or comment' item.id %}"
                                                class="btn btn-primary">Details</a>
-                                        </p>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <p class="lead text-center">
                                             {% if item.can_edit %}
+                                                <a href="{% url 'delete item' item.id %}" class="btn btn-danger">Delete</a>
                                                 <a href="{% url 'edit item' item.id %}" class="btn btn-success">Edit</a>
                                             {% else %}
                                                 <a href="" class="btn btn-success">Added by: <em>{{ item.creator }}</em></a>
                                             {% endif %}
-                                        </p>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
-        {% elif item.empty %}
+        {% elif items_empty %}
             <div><br></div>
             <div><br></div>
             <div><br></div>

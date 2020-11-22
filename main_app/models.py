@@ -58,3 +58,8 @@ class Comment(models.Model):
     author = models.ForeignKey('auth.User', default=None, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     comment = models.TextField(blank=False, max_length=200)
+    published = models.DateField()
+
+    def publish(self):
+        self.published = timezone.now()
+        self.save()
