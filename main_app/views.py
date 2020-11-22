@@ -71,7 +71,8 @@ def details_or_comment_item(request, pk):
         context = dict(item=item,
                        form=CommentForm(),
                        like=Like.objects.filter(item_id=pk).exists(),
-                       users=users)
+                       users=users,
+                       is_author=item.author_id == current_user.id )
 
         return render(request, 'items/item_detail.html', context)
     else:

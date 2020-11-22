@@ -29,17 +29,21 @@
                     {% endif %}
                 </div>
                 <div style="padding-top: 3%">
-                    {% if item.can_like %}
-                        <a href="{% url 'like item' item.pk %}" style="color: red"><i class="fa fa-thumbs-down fa-3x"
-                                                                                      aria-hidden="true"></i>
-                            <em><b>UnLike</b></em></a>
-                    {% else %}
-                        <a href="{% url 'like item' item.pk %}" style="color: green"><i class="fa fa-thumbs-up fa-3x"
-                                                                                        aria-hidden="true"></i>
-                            <em><b>Like</b></em></a>
+                    {% if not is_author %}
+                        {% if item.can_like %}
+                            <a href="{% url 'like item' item.pk %}" style="color: red"><i
+                                    class="fa fa-thumbs-down fa-3x"
+                                    aria-hidden="true"></i>
+                                <em><b>UnLike</b></em></a>
+                        {% else %}
+                            <a href="{% url 'like item' item.pk %}" style="color: green"><i
+                                    class="fa fa-thumbs-up fa-3x"
+                                    aria-hidden="true"></i>
+                                <em><b>Like</b></em></a>
+                        {% endif %}
                     {% endif %}
                 </div>
-                <p class="mt-2">Likes: {{ item.like_set.count }}</p>
+                <p class="mt-2"><u>Fellow Users' Likes:</u> <span style="font-size: x-large; color: red;"><b>&nbsp;&nbsp;{{ item.like_set.count }}</b></span></p>
             </div>
         </div>
     </div>
@@ -60,8 +64,9 @@
             {% for comment in item.comment_set.all %}
                 <div class="box">
                     {% for key, value in users.items %}
-                        {%  if key == comment.author_id %}
-                            <h5><em><u>Written by &nbsp;<span style="color: red">"{{ value }}"</span> &nbsp;on {{ comment.published }}:</u></em></h5>
+                        {% if key == comment.author_id %}
+                            <h5><em><u>Written by &nbsp;<span style="color: red">"{{ value }}"</span>
+                                &nbsp;on {{ comment.published }}:</u></em></h5>
                         {% endif %}
                     {% endfor %}
                     <h5>{{ comment.comment }}</h5>
