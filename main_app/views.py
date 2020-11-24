@@ -50,6 +50,7 @@ def list_items(request):
         'items': items,
         'filter_form': FilterForm(initial=params),
         'items_empty': Item.objects.all().count() <= 0,
+        'filter_included': True,
     }
 
     return render(request, 'items/item_list.html', context)

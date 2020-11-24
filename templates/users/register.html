@@ -7,16 +7,21 @@
         <form method="POST" action="{% url 'register user' %}" enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form user_form %}
+            <input type="checkbox" id="box_register" onclick="reveal_register()"> show password <br>
+            <div><br></div>
             {% bootstrap_form profile_form %}
             <div id="image_file_input">
-                <img id="local_img_preview" src="{{ profile_form.instance.profile_image.url }}" class="w-50 rounded mx-auto d-block"
-                     alt="Image goes here!"/>
+                <img id="local_img_preview" src="{{ profile_form.instance.profile_image.url }}"
+                     class="w-50 rounded mx-auto d-block"
+                     alt="Please, re-submit your photo."/>
             </div>
             {% buttons %}
                 <button class="btn btn-primary">Submit</button>
+                <div><br></div>
                 <p>or <a href="{% url 'login user' %}">login</a></p>
             {% endbuttons %}
         </form>
     </div>
     <script src="/static/js/local_image_preview.js"></script>
+    <script src="/static/js/password_reveal.js"></script>
 {% endblock content %}

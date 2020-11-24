@@ -4,13 +4,18 @@
     <h1 class="text-center">Login</h1>
     <div class="row d-flex justify-content-center">
         <form method="POST" action="{% url 'login user' %}">
-            <input type="hidden" name="return_url" value="{{ request.GET.next }}" />
+            <input type="hidden" name="return_url" value="{{ request.GET.next }}"/>
             {% csrf_token %}
             {% bootstrap_form login_form %}
+            {# Following line depricated as better solution accepted #}
+{#            <input type="checkbox" id="box_login" onclick="reveal_login()"> show password <br>#}
+            <div><br></div>
             {% buttons %}
                 <button class="btn btn-primary">Login</button>
+            <div><br></div>
                 <p>or <a href="{% url 'register user' %}?next={{ request.GET.next }}">register</a></p>
             {% endbuttons %}
         </form>
     </div>
+    <script src="/static/js/password_reveal.js"></script>
 {% endblock content %}

@@ -1,62 +1,11 @@
-import os
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import Group
-from auth_app.forms import LoginForm, RegisterForm, ProfileForm
-from django.core.files.storage import default_storage
-from django.conf import settings
-
-
-@transaction.atomic
-def register_user(request):
-    if request.method == 'GET':
-        context = {
-            'user_form': RegisterForm(),
-            'profile_form': ProfileForm(),
-        }
-
-        return render(request, 'users/register.html', context)
-
-    user_form = RegisterForm(request.POST)
-    profile_form = ProfileForm(request.POST, request.FILES)
-
-
-    if user_form.is_valid() and profile_form.is_valid():
-        user = user_form.save()
-        user.save()
-        profile = profile_form.save(commit=False)
-        profile.user = user
-        profile.save()
-
-        # Adding new user to a predefined common group
-        common_group = Group.objects.get(name='users')
-        common_group.user_set.add(user)
-
-        login(request, user)
-        return redirect('landing')
-
-    # #  Saving POSTed file to storage
-    # file = request.FILES['profile_image']
-    # file_name = default_storage.save(file.name, file)
-    #
-    # # Reading file from storage. Opening the file prevents from deleting.
-    # # file = default_storage.open(file_name)
-    # # file_url = default_storage.url(file_name)
-    #
-    # # Cleaning the temporary storage, used to make image "default
-    # project_root = settings.MEDIA_ROOT
-    # path_to_file = os.path.join(project_root, file_name)
-    # if os.path.isfile(path_to_file):
-    #     os.remove(path_to_file)
-
-    context = {
-        'user_form': user_form,
-        'profile_form': profile_form,
-    }
-
-    return render(request, 'users/register.html', context)
+from auth_app.forms import LoginForm, RegisterForm, ProfileForm, ProfilePictureForm
+from auth_app.models import UserProfile
+from main_app.models import Item
 
 
 def get_redirect_url(params):
@@ -104,3 +53,81 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('landing')
+
+
+@transaction.atomic
+def register_user(request):
+    if request.method == 'GET':
+        context = {
+            'user_form': RegisterForm(),
+            'profile_form': ProfileForm(),
+        }
+
+        return render(request, 'users/register.html', context)
+
+    user_form = RegisterForm(request.POST)
+    profile_form = ProfileForm(request.POST, request.FILES)
+
+    if user_form.is_valid() and profile_form.is_valid():
+        user = user_form.save()
+        user.save()
+        profile = profile_form.save(commit=False)
+        profile.user = user
+        profile.save()
+
+        # Adding new user to a predefined common group
+        common_group = Group.objects.get(name='users')
+        common_group.user_set.add(user)
+
+        login(request, user)
+        return redirect('landing')
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    }
+
+    return render(request, 'users/register.html', context)
+
+
+@login_required
+def show_profile(request, pk):
+    user = get_user_model().objects.get(pk=pk)
+    current_profile = UserProfile.objects.get(user_id=pk)
+
+    form = ProfilePictureForm(instance=current_profile)
+
+    items = Item.objects.filter(author=pk)
+    for item in items:
+        item.can_edit = True
+
+    if request.method == 'GET':
+        context = {
+            'form': form,
+            'user': user,
+            'items': items,
+            'items_empty': Item.objects.all().count() <= 0,
+            'filter_included': False,
+        }
+
+        return render(request, 'users/user_profile.html', context)
+
+    form = ProfilePictureForm(request.POST, request.FILES)
+
+    if form.is_valid():
+        new_image = form.cleaned_data['profile_image']
+        if new_image != '/images/users.jpg':
+            current_profile.profile_image = new_image
+            current_profile.save(update_fields=["profile_image"])
+
+        return redirect('landing')
+
+    context = {
+        'form': form,
+        'user': user,
+        'items': items,
+        'items_empty': Item.objects.all().count() <= 0,
+        'filter_included': False,
+    }
+
+    return render(request, 'users/user_profile.html', context)

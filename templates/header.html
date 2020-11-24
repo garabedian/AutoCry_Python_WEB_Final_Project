@@ -30,9 +30,11 @@
         {% if user.is_authenticated %}
             <img style="vertical-align: middle; width: 40px; height: 40px; border-radius: 50%;"
                  src="{{ user.userprofile.profile_image.url }}" alt="Avatar" class="avatar">
-            <a class="nav-link float-right" href="{% url 'logout user' %}">Hello, {{ user.username }}! Logout</a>
+            <a class="nav-link float-right" href="">Hello, {{ user.username }}!</a>
+            <a class="nav-link float-right" href="{% url 'user profile' user.id %}"> View profile</a>
+            <a class="nav-link float-right" href="{% url 'logout user' %}"> Logout</a>
         {% else %}
-            <a class="nav-link float-right">Hello, newcomer!</a>
+            <a class="nav-link float-right">Hello Visitor! You are welcome!</a>
             <a class="nav-link float-right" href="{% url 'login user' %}">Login</a>
             <a class="nav-link float-right" href="{% url 'register user' %}">Register</a>
         {% endif %}

@@ -1,0 +1,62 @@
+{% load bootstrap4 %}
+{% if items %}
+    {% if filter_included %}
+        {% include 'common/filter.html' %}
+    {% endif %}
+    <div class="row">
+        {% for item in items %}
+            <div class="col-lg-4" style="margin-top: 15px; margin-bottom: 15px;">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.type|capfirst }}: <span
+                                style="color: red">{{ item.make }}</span> - {{ item.model }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                    </div>
+                    <div class="border" style="height: 18rem; overflow: auto">
+                        {% if item.image_url %}
+                            <img src="{{ item.image_url }}" class="card-img-top vertical-center"
+                                 alt="image of {{ item.name }}">
+                        {% elif item.image_file %}
+                            <img src="{{ item.image_file.url }}" class="card-img-top vertical-center"
+                                 alt="image of {{ item.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <div class="row evenly-distributed-buttons">
+                            <a href="{% url 'item details or comment' item.id %}"
+                               class="btn btn-primary">Details</a>
+                            {% if item.can_edit %}
+                                <a href="{% url 'delete item' item.id %}" class="btn btn-danger">Delete</a>
+                                <a href="{% url 'edit item' item.id %}" class="btn btn-success">Edit</a>
+                            {% else %}
+                                <a href="" class="btn btn-success">Added by: <em>{{ item.creator }}</em></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% elif items_empty %}
+    <div><br></div>
+    <div><br></div>
+    <div><br></div>
+    <div>
+        <h3 class='text-center'><em>There are no vehicles yet. You are the lucky "Creator".</em></h3>
+        <br>
+        <p class="lead text-center">
+            <a href="{% url 'create item' %}" class="btn btn-success">Create your first vehicle</a>
+        </p>
+    </div>
+{% else %}
+    <div><br></div>
+    <div><br></div>
+    <div><br></div>
+    <div>
+        <h3 class='text-center'><em>There are no vehicles matching your filter criteria.</em></h3>
+        <br>
+        <p class="lead text-center">
+            <a href="{% url 'list items' %}" class="btn btn-success">Go back to full list</a>
+        </p>
+    </div>
+{% endif %}

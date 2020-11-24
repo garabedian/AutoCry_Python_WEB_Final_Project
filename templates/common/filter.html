@@ -1,0 +1,8 @@
+{% load bootstrap4 %}
+<div class="w-100 text-center">
+    <form class="d-lg-inline-block" method="get" action="{% url 'list items' %}">
+        {% csrf_token %}
+        {% bootstrap_form filter_form %}
+        <button>Filter</button>
+    </form>
+</div>

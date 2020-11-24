@@ -38,3 +38,17 @@ class ProfileForm(forms.ModelForm):
                 }
             )
         }
+
+
+class ProfilePictureForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        exclude = ('user', 'birth_year')
+        widgets = {
+            'profile_image': forms.FileInput(
+                attrs={
+                    'onchange': 'readURL(this);',
+                }
+            )
+        }
+
