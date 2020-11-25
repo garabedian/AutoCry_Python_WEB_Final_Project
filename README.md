@@ -1,9 +1,9 @@
 # AutoCry_Python_WEB_Final_Project
 This is my Python Web Framework Final Project which is a simple items register (in my case - cars). 
 - Here users can: 
--- register, login, and edit their profiles; 
--- add, edit and delete their favourite vehicles; 
--- see other members stuff, like or dislike others uploads;
+- register, login, and edit their profiles; 
+- add, edit and delete their favourite vehicles; 
+- see other members stuff, like or dislike others uploads;
 - It is written in Django/Python. 
 - Javascript and Bootstrap are also used for better UX (i.e. styling of elements and previewing of uploaded images).
 
