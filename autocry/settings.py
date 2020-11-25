@@ -32,6 +32,10 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# Console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Insert real mail service settings here
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,6 +46,8 @@ INSTALLED_APPS = [
 
     'django_cleanup',
     'bootstrap4',
+
+    'rest_framework_swagger',
 
     'main_app',
     'auth_app',

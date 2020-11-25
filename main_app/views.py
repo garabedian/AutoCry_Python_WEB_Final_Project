@@ -1,10 +1,15 @@
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 
+from rest_framework_swagger.views import get_swagger_view
+
 from autocry_core.decorators import allowed_groups
-from main_app.forms import ItemForm, CommentForm, DeleteItemForm, FilterForm
+from main_app.forms import ItemForm, CommentForm, DeleteItemForm, FilterForm, ContactForm
 from main_app.models import Item, Like, Comment
+
+schema_view = get_swagger_view(title='Pastebin API')
 
 
 def liked_already(pk, current_user):
@@ -73,7 +78,7 @@ def details_or_comment_item(request, pk):
                        form=CommentForm(),
                        like=Like.objects.filter(item_id=pk).exists(),
                        users=users,
-                       is_author=item.author_id == current_user.id )
+                       is_author=item.author_id == current_user.id)
 
         return render(request, 'items/item_detail.html', context)
     else:
@@ -180,3 +185,20 @@ def delete_item(request, pk):
         item.delete()
 
         return redirect('list items')
+
+
+def contact_us(request):
+    if request.method == 'GET':
+        form = ContactForm()
+        return render(request, 'contact/contact-us.html', {'form': form})
+
+    form = ContactForm(request.POST)
+    if form.is_valid():
+        # send email code goes here
+        sender_name = form.cleaned_data['name']
+        sender_email = form.cleaned_data['email']
+
+        message = "{0} has sent you a new message:\n\n{1}".format(sender_name, form.cleaned_data['message'])
+        send_mail('New Enquiry', message, sender_email, ['profisauto@outlook.com'])
+        return render(request, 'contact/email-confirm.html')
+
