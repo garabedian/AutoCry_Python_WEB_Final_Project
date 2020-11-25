@@ -1,4 +1,5 @@
 {% load bootstrap4 %}
+{% load custom_tags %}
 {% if items %}
     {% if filter_included %}
         {% include 'common/filter.html' %}
@@ -29,7 +30,7 @@
                                 <a href="{% url 'delete item' item.id %}" class="btn btn-danger">Delete</a>
                                 <a href="{% url 'edit item' item.id %}" class="btn btn-success">Edit</a>
                             {% else %}
-                                <a href="" class="btn btn-success">Added by: <em>{{ item.creator }}</em></a>
+                                <a href="{% url 'user profile' item.author_id %}" class="btn btn-success">Added by: <em>{{ item.creator }}</em></a>
                             {% endif %}
                         </div>
                     </div>

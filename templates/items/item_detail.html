@@ -1,5 +1,5 @@
 {% extends 'landing_page.html' %}
-
+{% load custom_tags %}
 {% block content %}
     <div class="container">
         <div class="d-flex">
@@ -19,6 +19,8 @@
                         <li><h5><em>Make:</em> {{ item.make }}</h5></li>
                         <li><h5><em>Model:</em> {{ item.model }}</h5></li>
                         <li><h5><em>Build year:</em> {{ item.build_year }}</h5></li>
+                        <li><h5><em>Author:</em>
+                            <a href="{% url 'user profile' item.author_id %}" style="color: red"> {{ users|get_item:item.author_id }}</a></h5></li>
                     </ul>
                 </div>
                 <p class="mt-2">Description: {{ item.description|linebreaks }}</p>
@@ -43,7 +45,8 @@
                         {% endif %}
                     {% endif %}
                 </div>
-                <p class="mt-2"><u>Fellow Users' Likes:</u> <span style="font-size: x-large; color: red;"><b>&nbsp;&nbsp;{{ item.like_set.count }}</b></span></p>
+                <p class="mt-2"><u>Fellow Users' Likes:</u> <span style="font-size: x-large; color: red;"><b>&nbsp;&nbsp;{{ item.like_set.count }}</b></span>
+                </p>
             </div>
         </div>
     </div>
@@ -63,12 +66,14 @@
             </div>
             {% for comment in item.comment_set.all %}
                 <div class="box">
-                    {% for key, value in users.items %}
-                        {% if key == comment.author_id %}
-                            <h5><em><u>Written by &nbsp;<span style="color: red">"{{ value }}"</span>
-                                &nbsp;on {{ comment.published }}:</u></em></h5>
-                        {% endif %}
-                    {% endfor %}
+                                        {# Used instead of custom template tag #}
+{#                                        {% for key, value in users.items %}#}
+                    {#                        {% if key == comment.author_id %}#}
+                    <h5><em><u>Written by &nbsp;<a onclick="add_reference()">
+                        <span style="color: red" id="refer_to">"{{ users|get_item:comment.author_id }}"</span></a>
+                        &nbsp;on {{ comment.published }}:</u></em></h5>
+                    {#                        {% endif %}#}
+                    {#                    {% endfor %}#}
                     <h5>{{ comment.comment }}</h5>
                     <hr>
                 </div>
@@ -79,4 +84,5 @@
             </div>
         {% endif %}
     </div>
+    <script src="/static/js/add_reference.js"></script>
 {% endblock content %}

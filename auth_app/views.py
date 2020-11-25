@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import Group
 from auth_app.forms import LoginForm, RegisterForm, ProfileForm, ProfilePictureForm
 from auth_app.models import UserProfile
+from autocry_core.decorators import allowed_groups
 from main_app.models import Item
 
 
@@ -90,44 +91,73 @@ def register_user(request):
     return render(request, 'users/register.html', context)
 
 
-@login_required
+# @login_required
+@allowed_groups(allowed_roles=['superusers', 'users'])
 def show_profile(request, pk):
-    user = get_user_model().objects.get(pk=pk)
-    current_profile = UserProfile.objects.get(user_id=pk)
+    if request.user.id == pk:
+        user = get_user_model().objects.get(pk=pk)
+        current_profile = UserProfile.objects.get(user_id=pk)
 
-    form = ProfilePictureForm(instance=current_profile)
+        form = ProfilePictureForm(instance=current_profile)
 
-    items = Item.objects.filter(author=pk)
-    for item in items:
-        item.can_edit = True
+        items = Item.objects.filter(author=pk)
+        for item in items:
+            item.can_edit = True
 
-    if request.method == 'GET':
+        if request.method == 'GET':
+            context = {
+                'form': form,
+                'user': user,
+                'items': items,
+                'items_empty': Item.objects.all().count() <= 0,
+                'filter_included': False,
+                'current_access': True,
+            }
+
+            return render(request, 'users/user_profile.html', context)
+
+        form = ProfilePictureForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            new_image = form.cleaned_data['profile_image']
+            if new_image != '/images/users.jpg':
+                current_profile.profile_image = new_image
+                current_profile.save(update_fields=["profile_image"])
+
+            return redirect('landing')
+
         context = {
             'form': form,
             'user': user,
             'items': items,
             'items_empty': Item.objects.all().count() <= 0,
             'filter_included': False,
+            'current_access': True,
         }
 
         return render(request, 'users/user_profile.html', context)
 
-    form = ProfilePictureForm(request.POST, request.FILES)
+    else:
+        other = {
+            'id': pk,
+            'name': get_user_model().objects.get(pk=pk).username,
+            'joined': get_user_model().objects.get(pk=pk).date_joined,
+        }
+        other_image = UserProfile.objects.get(user_id=pk).profile_image
 
-    if form.is_valid():
-        new_image = form.cleaned_data['profile_image']
-        if new_image != '/images/users.jpg':
-            current_profile.profile_image = new_image
-            current_profile.save(update_fields=["profile_image"])
+        items = Item.objects.filter(author=pk)
+        for item in items:
+            item.can_edit = False
+            item.creator = other['name']
 
-        return redirect('landing')
+        context = {
+            'other': other,
+            'other_image': other_image,
+            'items': items,
+            'items_empty': Item.objects.all().count() <= 0,
+            'filter_included': False,
+            'current_access': False,
+        }
 
-    context = {
-        'form': form,
-        'user': user,
-        'items': items,
-        'items_empty': Item.objects.all().count() <= 0,
-        'filter_included': False,
-    }
+        return render(request, 'users/user_profile.html', context)
 
-    return render(request, 'users/user_profile.html', context)

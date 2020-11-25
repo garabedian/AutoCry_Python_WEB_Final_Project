@@ -1,0 +1,31 @@
+<h1 class="text-center">Your profile</h1>
+<div><br></div>
+<h2 class="text-center">Hello, {{ user.username }}</h2>
+<h5 class="text-center">You joined us on {{ user.date_joined|date }}</h5>
+<div><br></div>
+<div style="text-align: center">
+    <img src="{{ user.userprofile.profile_image.url }}" style="width:300px;height:auto;" id="local_img_preview"
+         alt="">
+</div>
+<div class="text-center">
+    <br>
+    <input class="text-center" type="checkbox" id="box_photo_change" onclick="reveal_photo_change()">
+    change my profile photo
+    <br>
+    <br>
+</div>
+
+<div class="row d-flex justify-content-center" hidden>
+    <form method="POST" class="text-center" action="{% url 'user profile' user.id %}" id="photo_change" hidden
+          enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.profile_image }}
+        {#            {% bootstrap_form form %}#}
+        <button class="btn btn-primary text-center">Change my photo!</button>
+    </form>
+</div>
+<div><br></div>
+<h1 class='text-center'>All your vehicles</h1>
+<div><br></div>
+<script src="/static/js/local_image_preview.js"></script>
+<script src="/static/js/profile_image_change.js"></script>

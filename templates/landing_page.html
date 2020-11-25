@@ -34,26 +34,30 @@
                 <img style="width: 100%"
                      src="{% static 'images/group of cars.jpg' %}" alt="">
                 <div class="absolute">
-                    <h1 class="display-4 text-center animate__animated animate__bounceInLeft"><strong>Welcome to Auto Cry</strong></h1>
-                    <p class="lead text-lg-center animate__animated animate__bounceInRight"><em><strong>Share the cars and vehicles you own or
+                    <h1 class="display-4 text-center animate__animated animate__bounceInLeft"><strong>Welcome to Auto
+                        Cry</strong></h1>
+                    <p class="lead text-lg-center animate__animated animate__bounceInRight"><em><strong>Share the cars
+                        and vehicles you own or
                         like.</strong></em>
                     </p>
-                    <hr class="my-4">
-                    <div class="inner cover animate__animated  animate__zoomInUp">
-                        <h1 class="cover-heading"></h1>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <p class="lead">Registered user? <br><a href="{% url 'login user' %}"
-                                                                        class="btn btn-lg btn-secondary">sign
-                                    in</a></p>
-                            </div>
-                            <div class="col-lg-6">
-                                <p class="lead text-right">Welcome, guest!<br>
-                                    <a href="{% url 'register user' %}" class="btn btn-lg btn-secondary">sign up</a>
-                                </p>
+                    {% if not request.user.is_authenticated %}
+                        <hr class="my-4">
+                        <div class="inner cover animate__animated  animate__zoomInUp">
+                            <h1 class="cover-heading"></h1>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class="lead">Registered user? <br><a href="{% url 'login user' %}"
+                                                                            class="btn btn-lg btn-secondary">sign
+                                        in</a></p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <p class="lead text-right">Welcome, guest!<br>
+                                        <a href="{% url 'register user' %}" class="btn btn-lg btn-secondary">sign up</a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                     <hr class="my-4">
                     <div class="inner cover animate__animated animate__zoomIn">
                         <h1 class="cover-heading"></h1>
