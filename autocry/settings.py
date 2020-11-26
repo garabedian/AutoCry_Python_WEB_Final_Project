@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'django_cleanup',
     'bootstrap4',
 
+    'boto',
+
     'rest_framework_swagger',
 
     'main_app',
