@@ -7,7 +7,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <pre> </pre>
-    <img style="height: 40px; width: 40px; display: block;" src="{% static 'images/car.png' %}" alt=""/>
+    <img style="height: 40px; width: 40px; display: block;" src="{% static 'img/car.png' %}" alt=""/>
     <pre>  </pre>
     <div>
         <a style="color: wheat" href="{% url 'landing' %}"><h3>Auto Cry</h3></a>
@@ -31,7 +31,7 @@
             <a href="{% url 'user profile' user.id %}"><img
                     style="vertical-align: middle; width: 40px; height: 40px; border-radius: 50%;"
                     src="{{ user.userprofile.profile_image.url }}" alt="Avatar" class="avatar"></a>
-            <a class="nav-link float-right" href="">&nbsp;&nbsp;Hello, {{ user.username }}!</a>
+            <a class="nav-link float-right">&nbsp;&nbsp;Hello, {{ user.username }}!</a>
 {#            <a class="nav-link float-right" href="{% url 'user profile' user.id %}"> View profile</a>#}
             <a class="nav-link float-right" href="{% url 'logout user' %}"> Logout</a>
         {% else %}
