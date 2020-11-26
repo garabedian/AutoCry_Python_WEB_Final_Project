@@ -50,8 +50,6 @@ INSTALLED_APPS = [
 
     'boto',
 
-    'rest_framework_swagger',
-
     'main_app',
     'auth_app',
 ]

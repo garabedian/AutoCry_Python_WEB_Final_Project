@@ -3,13 +3,9 @@ from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 
-from rest_framework_swagger.views import get_swagger_view
-
 from autocry_core.decorators import allowed_groups
 from main_app.forms import ItemForm, CommentForm, DeleteItemForm, FilterForm, ContactForm
 from main_app.models import Item, Like, Comment
-
-schema_view = get_swagger_view(title='Pastebin API')
 
 
 def liked_already(pk, current_user):
@@ -203,6 +199,3 @@ def contact_us(request):
         return render(request, 'contact/email-confirm.html')
 
     return render(request, 'contact/email-failed.html')
-
-
-
