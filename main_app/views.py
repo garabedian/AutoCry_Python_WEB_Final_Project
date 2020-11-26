@@ -199,6 +199,10 @@ def contact_us(request):
         sender_email = form.cleaned_data['email']
 
         message = "{0} has sent you a new message:\n\n{1}".format(sender_name, form.cleaned_data['message'])
-        send_mail('New Enquiry', message, sender_email, ['profisauto@outlook.com'])
+        send_mail('New Enquiry', message, sender_email, ['takvor@students.softuni.bg'])
         return render(request, 'contact/email-confirm.html')
+
+    return render(request, 'contact/email-failed.html')
+
+
 
