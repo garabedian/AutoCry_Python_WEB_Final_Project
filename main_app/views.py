@@ -183,6 +183,8 @@ def delete_item(request, pk):
         return redirect('list items')
 
 
+# @login_required(login_url='login user')
+@allowed_groups(allowed_roles=['superusers', 'users'])
 def contact_us(request):
     if request.method == 'GET':
         form = ContactForm()
