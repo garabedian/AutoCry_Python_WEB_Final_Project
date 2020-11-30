@@ -170,6 +170,7 @@ def like_item(request, pk):
 
 
 def persist_item(request, item, template_name):
+    item_has_author = item.author_id
     if request.method == 'GET':
         form = ItemForm(instance=item)
 
@@ -194,7 +195,8 @@ def persist_item(request, item, template_name):
             entry = form.save(commit=False)
             if entry.image_type == 'local_image':
                 entry.image_url = ''
-            entry.author = request.user
+            if not item_has_author:
+                entry.author = request.user
             entry.publish()
             entry.save()
             return redirect('item details or comment', item.pk)
@@ -216,7 +218,7 @@ def edit_item(request, pk):
     item = Item.objects.get(pk=pk)
 
     if item.author_id != request.user.id and not request.user.is_superuser:
-        return render(request, 'users/401_unauthorized.html')
+        return render(request, '403.html')
 
     return persist_item(request, item, 'item_edit')
 
@@ -264,7 +266,7 @@ def delete_item(request, pk):
     item = Item.objects.get(pk=pk)
 
     if item.author_id != request.user.id and not request.user.is_superuser:
-        return render(request, 'users/401_unauthorized.html')
+        return render(request, '403.html')
 
     if request.method == 'GET':
         form = DeleteItemForm(instance=item)

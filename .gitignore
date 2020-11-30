@@ -1,5 +1,4 @@
-
-local_settings.py
+autocry/local_settings.py
 
 *.pyc
 
