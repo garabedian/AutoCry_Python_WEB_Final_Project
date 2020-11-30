@@ -1,24 +1,28 @@
-<label for="{{ form.type.id_for_label }}">Vehicle Type</label>
-{{ form.type }}
-{{ form.type.errors }}
+{% if form %}
+    <label for="{{ form.type.id_for_label }}">Vehicle Type</label>
+    {{ form.type }}
+    {{ form.type.errors }}
 
-<label for="{{ form.make.id_for_label }}">Vehicle Make</label>
-{{ form.make }}
-{{ form.make.errors }}
+    <label for="{{ form.make.id_for_label }}">Vehicle Make</label>
+    {{ form.make }}
+    {{ form.make.errors }}
 
-<label for="{{ form.model.id_for_label }}">Vehicle Model</label>
-{{ form.model }}
-{{ form.model.errors }}
+    <label for="{{ form.model.id_for_label }}">Vehicle Model</label>
+    {{ form.model }}
+    {{ form.model.errors }}
 
-<label for="{{ form.build_year.id_for_label }}">Build Year</label>
-{{ form.build_year }}
-{{ form.build_year.errors }}
+    <label for="{{ form.build_year.id_for_label }}">Build Year</label>
+    {{ form.build_year }}
+    {{ form.build_year.errors }}
 
-<label for="{{ form.description.id_for_label }}">Description</label>
-{{ form.description }}
-{{ form.description.errors }}
+    <label for="{{ form.description.id_for_label }}">Description</label>
+    {{ form.description }}
+    {{ form.description.errors }}
 
-<label for="{{ form.image_type.id_for_label }}">Image Type Upload</label>
-{{ form.image_type }}
-{{ form.image_type.errors }}
-{{ input_type }}
+    <label for="{{ form.image_type.id_for_label }}">Image Type Upload</label>
+    {{ form.image_type }}
+    {{ form.image_type.errors }}
+    {{ input_type }}
+{% else %}
+    {{ form }}
+{% endif %}

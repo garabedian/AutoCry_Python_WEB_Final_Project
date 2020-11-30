@@ -25,4 +25,5 @@ def allowed_groups(allowed_roles=[]):
             #     return render(request, 'users/401_unauthorized.html')
 
         return wrapper
+
     return decorator

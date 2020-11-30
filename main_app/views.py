@@ -1,7 +1,12 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView, DeleteView
 
 from autocry_core.decorators import allowed_groups
 from main_app.forms import ItemForm, CommentForm, DeleteItemForm, FilterForm, ContactForm
@@ -26,15 +31,69 @@ def landing_page(request):
     return render(request, 'landing_page.html')
 
 
+# CBV for all items
+class ListItemsView(ListView):
+    template_name = 'items/item_list.html'
+    model = Item
+    context_object_name = 'items'
+    paginate_by = 6
+    order_by = ''
+    contains_make = ''
+
+    def dispatch(self, request, *args, **kwargs):
+        params = extract_filter_values(request.GET)
+        filter_choices = {
+            FilterForm.ORDER_ASC: 'make',
+            FilterForm.ORDER_DESC: '-make',
+            FilterForm.DATE_ASC: 'published_date',
+            FilterForm.DATE_DESC: '-published_date',
+        }
+        self.order_by = filter_choices[params['order']]
+        self.contains_make = params['make']
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        order_by = self.order_by
+        items_make = self.model.objects.filter(make__icontains=self.contains_make)
+        items_model = self.model.objects.filter(model__icontains=self.contains_make)
+        result = (items_make | items_model).order_by(order_by)
+        return result
+
+    def get_context_data(self, **kwargs):
+        filter_form_choices = {
+            'make': FilterForm.ORDER_ASC,
+            '-make': FilterForm.ORDER_DESC,
+            'published_date': FilterForm.DATE_ASC,
+            '-published_date': FilterForm.DATE_DESC,
+        }
+        context = super().get_context_data(**kwargs)
+        context['filter_form'] = FilterForm(initial={
+            'order': filter_form_choices[self.order_by],
+            'make': self.contains_make,
+        })
+
+        users = get_user_model().objects.all()
+
+        for item in context['items']:
+            item.can_edit = item.author_id == context['view'].request.user.id or context[
+                'view'].request.user.is_superuser
+            creator = users.filter(id=item.author_id)
+            item.creator = creator[0].username
+
+        context['filter_included'] = True
+        return context
+
+
+# FBV for all items
 def list_items(request):
     params = extract_filter_values(request.GET)
-    choices = {
+    filter_choices = {
         FilterForm.ORDER_ASC: 'make',
         FilterForm.ORDER_DESC: '-make',
         FilterForm.DATE_ASC: 'published_date',
         FilterForm.DATE_DESC: '-published_date',
     }
-    order_by = choices[params['order']]
+    order_by = filter_choices[params['order']]
 
     items_make = Item.objects.filter(make__icontains=params['make'])
     items_model = Item.objects.filter(model__icontains=params['make'])
@@ -155,6 +214,10 @@ def persist_item(request, item, template_name):
 @allowed_groups(allowed_roles=['superusers', 'users'])
 def edit_item(request, pk):
     item = Item.objects.get(pk=pk)
+
+    if item.author_id != request.user.id and not request.user.is_superuser:
+        return render(request, 'users/401_unauthorized.html')
+
     return persist_item(request, item, 'item_edit')
 
 
@@ -165,10 +228,44 @@ def create_item(request):
     return persist_item(request, item, 'item_create')
 
 
+# CBV for delete item
+@method_decorator(allowed_groups(allowed_roles=['superusers', 'users']), name='dispatch')
+class DeleteItemView(UserPassesTestMixin, DeleteView):
+    fields = '__all__'
+    model = Item
+    context_object_name = 'item'
+    template_name = 'items/item_delete.html'
+    success_url = reverse_lazy('list items')
+    user = None
+    item = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.user = request.user
+        pk = self.kwargs['pk']
+        self.item = Item.objects.get(pk=pk)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = DeleteItemForm(instance=self.object)
+        return context
+
+    def test_func(self):
+        if self.item.author == self.user or self.user.is_superuser:
+            return True
+
+        raise PermissionDenied
+
+
+# FBV for delete item
 # @login_required(login_url='login user')
 @allowed_groups(allowed_roles=['superusers', 'users'])
 def delete_item(request, pk):
     item = Item.objects.get(pk=pk)
+
+    if item.author_id != request.user.id and not request.user.is_superuser:
+        return render(request, 'users/401_unauthorized.html')
+
     if request.method == 'GET':
         form = DeleteItemForm(instance=item)
         context = {

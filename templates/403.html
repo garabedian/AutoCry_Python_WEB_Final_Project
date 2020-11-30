@@ -1,0 +1,18 @@
+{% extends 'landing_page.html' %}
+{% load static %}
+
+{% block outer_content %}
+    <div class="container" style="padding-top: 80px; padding-bottom: 50px">
+        <div class="jumbotron parent text-lg-center">
+            <div class="row mh-100 justify-content-center align-items-center">
+                <div class="form-group">
+                    <img src="{% static 'img/404face.png' %}" alt="">
+                    <h1 class="display-4 text-center"><strong>403 Forbidden!</strong></h1>
+                    <p class="lead"><em><strong>Please, do not be so "clever"...</strong></em></p>
+                    <hr class="my-4">
+                    <a href="{% url 'landing' %}" class="btn btn-danger btn-secondary">Start Over</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock outer_content %}

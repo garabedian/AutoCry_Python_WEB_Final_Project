@@ -31,7 +31,8 @@
                                     <a href="{% url 'delete item' item.id %}" class="btn btn-danger">Delete</a>
                                     <a href="{% url 'edit item' item.id %}" class="btn btn-success">Edit</a>
                                 {% else %}
-                                    <a href="{% url 'user profile' item.author_id %}" class="btn btn-success">Added by:
+                                    <a href="{% url 'user profile' item.author_id %}" class="btn btn-success">Added
+                                        by:
                                         <em>{{ item.creator }}</em></a>
                                 {% endif %}
                             </div>
@@ -44,6 +45,27 @@
                 </div>
             </div>
         {% endfor %}
+    </div>
+    <div><br></div>
+    <div><br></div>
+    <div class="pagination row-cols-1" style="text-align: center">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info btn-sm" href="?page=1">&laquo; first</a>
+                <a class="btn btn-outline-info btn-sm" href="?page={{ page_obj.previous_page_number }}">prev</a>
+            {% endif %}
+            {% if page_obj.number %}
+                <span class="current">
+                Page <b style="font-size: large; color:#17a2b8">{{ page_obj.number }}</b> of <b
+                        style="font-size: large; color:#17a2b8">{{ page_obj.paginator.num_pages }}</b>.
+            </span>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a class="btn btn-outline-info btn-sm" href="?page={{ page_obj.next_page_number }}">next</a>
+                <a class="btn btn-outline-info btn-sm"
+                   href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
     </div>
 {% elif items_empty %}
     <div><br></div>
@@ -68,3 +90,4 @@
         </p>
     </div>
 {% endif %}
+
