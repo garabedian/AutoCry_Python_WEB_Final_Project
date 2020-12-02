@@ -1,14 +1,17 @@
 {% load static %}
-<div class="card-footer navbar-dark bg-dark footer fixed-bottom">
-    <div class="text-light text-center center" style="display: inline;">
-        <small>Final Project for Python Web Development @SoftUni by Takvor M.
-            Garabedian - created November 2020&nbsp;&nbsp;&nbsp;</small>
-        <small class="text-light text-center"><a href="{% url 'contact us' %}" style="color: wheat">Contact
+{% load bootstrap4 %}
+<div class="card-footer navbar-dark bg-dark footer fixed-bottom" style="padding: 5px">
+    <div class="text-light center" style="display: inline;">
+        <small>Final Project for Python Web Development
+            <a href="https://softuni.bg/" target="_blank" style="color: #ffa000">@SoftUni</a>
+            by Takvor M. Garabedian - created November 2020&nbsp;&nbsp;&nbsp;</small>
+        <small class="text-light text-center"><a href="{% url 'contact us' %}" style="color: #f5deb3">Contact
             us</a></small>
     </div>
-{#    <div class="text-right" style="display: inline; float: right;">#}
-{#        <audio hidden src="/media/sounds/Bolero.mp3" controls ontimeupdate="update_time()" type="audio/mp3" loop id="background_audio"></audio>#}
-{#        <a class="btn btn-outline-info btn-sm" onclick="toggle_play()">Background music</a>#}
-{#    </div>#}
+    <div class="text-right" style="display: inline; float: right; padding-right: 2px;">
+        <audio hidden src="/media/sounds/Bolero.mp3" controls ontimeupdate="update_time()" type="audio/mp3" loop
+               id="background_audio"></audio>
+        <a class="btn btn-outline-info btn-sm" onclick="toggle_play()">Background music</a>
+    </div>
 </div>
 <script src="{% static 'js/audio_tag_time_keeper.js' %}"></script>

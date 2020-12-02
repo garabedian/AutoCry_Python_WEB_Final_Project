@@ -21,6 +21,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path('api/', include('rest_framework.urls')),
     path('nimda/', admin.site.urls),
     path('', include('main_app.urls')),
     path('auth/', include('auth_app.urls')),

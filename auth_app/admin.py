@@ -5,10 +5,15 @@ from django.contrib.auth.models import User
 from auth_app.models import UserProfile
 
 
+# Changing the default name to user-friendly type
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user',)
 
 
+admin.site.register(UserProfile, UserProfileAdmin)
+
+
+# Attaching the extended user profile to user change admin page
 class ProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
@@ -25,9 +30,5 @@ class CustomUserAdmin(UserAdmin):
         return super(CustomUserAdmin, self).get_inline_instances(request, obj)
 
 
-# Changing the default name to user-friendly type
-admin.site.register(UserProfile, UserProfileAdmin)
-
-# Attaching the extended user profile to user change admin page
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)

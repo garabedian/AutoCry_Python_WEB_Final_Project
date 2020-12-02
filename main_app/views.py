@@ -7,10 +7,14 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DeleteView
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from autocry_core.decorators import allowed_groups
 from main_app.forms import ItemForm, CommentForm, DeleteItemForm, FilterForm, ContactForm
 from main_app.models import Item, Like, Comment
+from main_app.serializers import ItemSerializer
 
 
 def liked_already(pk, current_user):
@@ -252,6 +256,7 @@ class DeleteItemView(UserPassesTestMixin, DeleteView):
         context['form'] = DeleteItemForm(instance=self.object)
         return context
 
+    # Required by UserPassesTestMixin
     def test_func(self):
         if self.item.author == self.user or self.user.is_superuser:
             return True
@@ -294,9 +299,44 @@ def contact_us(request):
         # send email code goes here
         sender_name = form.cleaned_data['name']
         sender_email = form.cleaned_data['email']
+        login_name = request.user.username
 
-        message = "{0} has sent you a new message:\n\n{1}".format(sender_name, form.cleaned_data['message'])
+        message = f'{sender_name} ("{login_name}") has sent you a new message:\n\n{form.cleaned_data["message"]}'
         send_mail('New Enquiry', message, sender_email, ['takvor@students.softuni.bg'])
         return render(request, 'contact/email-confirm.html')
 
     return render(request, 'contact/email-failed.html')
+
+
+class ListItemsRestView(APIView):
+    def get(self, request):
+        items = Item.objects.all()
+        serializer = ItemSerializer(items, many=True)
+        return Response({"items": serializer.data})
+
+    def post(self, request):
+        serializer = ItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DetailItemRestView(APIView):
+    def get(self, request, pk):
+        item = Item.objects.get(pk=pk)
+        serializer = ItemSerializer(item)
+        return Response({"item": serializer.data})
+
+    def post(self, request, pk):
+        item = Item.objects.get(pk=pk)
+        serializer = ItemSerializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        item = Item.objects.get(pk=pk)
+        item.delete()
+        return Response(status=status.HTTP_200_OK)

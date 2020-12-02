@@ -4,8 +4,6 @@ from django.core.exceptions import ValidationError
 from main_app.common import DisabledFormMixin
 from main_app.models import Item
 
-from django import forms
-
 from main_app.models import Comment
 
 
