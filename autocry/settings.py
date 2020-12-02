@@ -50,9 +50,11 @@ INSTALLED_APPS = [
     'django_cleanup',
     'bootstrap4',
 
-    # 'storages',
     'boto',
-    'cloudinary',
+    # Avoid 'storages' & 'cloudinary' collectstatic errors by: heroku config:set DISABLE_COLLECTSTATIC=1
+    # https://www.dothedev.com/blog/heroku-django-store-your-uploaded-media-files-for-free/
+    # 'cloudinary',
+    # 'storages',
 
     'main_app',
     'auth_app',
@@ -102,7 +104,12 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 try:
     from .local_settings import *
 except ImportError:
-    pass
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': 'hewtsbisw',
+        'API_KEY': '192825189237136',
+        'API_SECRET': 'FiHHpJtfFx5HjGCJlkbmzhLvTu0',
+    }
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -153,9 +160,3 @@ LOGIN_URL = '/auth_app/login/'
 # Heroku settings
 django_heroku.settings(locals())
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'hewtsbisw',
-    'API_KEY': '192825189237136',
-    'API_SECRET': 'FiHHpJtfFx5HjGCJlkbmzhLvTu0',
-}
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
