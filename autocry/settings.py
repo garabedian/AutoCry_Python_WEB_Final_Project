@@ -104,12 +104,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 try:
     from .local_settings import *
 except ImportError:
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': 'hewtsbisw',
-        'API_KEY': '192825189237136',
-        'API_SECRET': 'FiHHpJtfFx5HjGCJlkbmzhLvTu0',
-    }
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    pass
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -160,3 +155,11 @@ LOGIN_URL = '/auth_app/login/'
 # Heroku settings
 django_heroku.settings(locals())
 
+# Use cloudinary as media storage
+if not DEBUG:
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': 'hewtsbisw',
+        'API_KEY': '192825189237136',
+        'API_SECRET': 'FiHHpJtfFx5HjGCJlkbmzhLvTu0',
+    }
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
