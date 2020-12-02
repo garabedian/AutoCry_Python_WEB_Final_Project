@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django_cleanup',
     'bootstrap4',
 
-    'storages',
+    # 'storages',
     'boto',
 
     'main_app',
@@ -147,3 +147,6 @@ MEDIA_ROOT = join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
 LOGIN_URL = '/auth_app/login/'
+
+# Heroku settings
+django_heroku.settings(locals())
