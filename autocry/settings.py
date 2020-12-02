@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'boto',
     # Avoid 'storages' & 'cloudinary' collectstatic errors by: heroku config:set DISABLE_COLLECTSTATIC=1
     # https://www.dothedev.com/blog/heroku-django-store-your-uploaded-media-files-for-free/
-    # 'cloudinary',
+    'cloudinary',
     # 'storages',
 
     'main_app',
