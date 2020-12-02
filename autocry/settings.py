@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'cloudinary_storage',
     'django.contrib.staticfiles',
 
     'rest_framework',
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
 
     # 'storages',
     'boto',
+    'cloudinary',
 
     'main_app',
     'auth_app',
@@ -150,3 +152,10 @@ LOGIN_URL = '/auth_app/login/'
 
 # Heroku settings
 django_heroku.settings(locals())
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'hewtsbisw',
+    'API_KEY': '192825189237136',
+    'API_SECRET': 'FiHHpJtfFx5HjGCJlkbmzhLvTu0',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
