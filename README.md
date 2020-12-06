@@ -6,6 +6,7 @@ This is my Python Web Framework Final Project which is a simple items register (
 - see other members stuff, like or dislike others uploads;
 - It is written in Django/Python. 
 - Javascript and Bootstrap are also used for better UX (i.e. styling of elements and previewing of uploaded images).
+- Further information about certain features could be found in Documentation.docx
 
 - It is my last course from SoftUni-Bulgaria Software Engineering Educational Program "Python Web Developer",
 which I started on 06.April.2019 as an "Open" course.
