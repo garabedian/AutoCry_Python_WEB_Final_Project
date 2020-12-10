@@ -5,17 +5,6 @@
     <meta charset="UTF-8">
     <title>Auto Cry</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <style>
-        body {
-            background-image: url('../static/img/road.jpg');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-            opacity: 90%;
-        }
-    </style>
-
     {#    Using Bootstrap locally through django-bootstrap4 app #}
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
@@ -32,6 +21,17 @@
 
     <link rel="icon" type="image/png" href="{% static 'img/car.png' %}">
     <link rel="stylesheet" href="{% static '/css/custom.css' %}">
+
+    <style>
+        body {
+            background-image: url("{% static 'img/road.jpg' %}");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            opacity: 90%;
+        }
+    </style>
+
 </head>
 
 {% block outer_content %}

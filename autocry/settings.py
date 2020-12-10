@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     # Avoid 'storages' & 'cloudinary' collectstatic errors by: heroku config:set DISABLE_COLLECTSTATIC=1
     # https://www.dothedev.com/blog/heroku-django-store-your-uploaded-media-files-for-free/
     'cloudinary',
-    # 'storages',
+    'storages',
 
     'main_app',
     'auth_app',
@@ -62,6 +62,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
