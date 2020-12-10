@@ -1,6 +1,9 @@
 {% load static %}
 {% load bootstrap4 %}
 <div class="card-footer navbar-dark bg-dark footer fixed-bottom" style="padding: 5px">
+    <div class="text-left" style="display: inline; float: left; padding-right: 2px;">
+        <a class="btn btn-outline-info btn-sm" onclick="toggle_image()" id="background_image">Background toggle</a>
+    </div>
     <div class="text-light center" style="display: inline;">
         <small>Final Project for Python Web Development
             <a href="https://softuni.bg/" target="_blank" style="color: #ffa000">@SoftUni</a>
@@ -14,4 +17,4 @@
         <a class="btn btn-outline-info btn-sm" onclick="toggle_play()">Background music</a>
     </div>
 </div>
-<script src="{% static 'js/audio_tag_time_keeper.js' %}"></script>
+<script src="{% static 'js/footer_buttons.js' %}"></script>

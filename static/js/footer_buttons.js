@@ -35,3 +35,13 @@ function update_time() {
     sessionStorage.setItem('current_time', document.getElementById('background_audio').currentTime);
     sessionStorage.setItem('old_time', document.getElementById('background_audio').currentTime);
 }
+
+function toggle_image() {
+    const main_land = document.getElementById("main_land");
+
+    if (main_land.style.display === "block") {
+        main_land.style.display = "none";
+    } else {
+        main_land.style.display = "block";
+    }
+}
