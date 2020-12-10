@@ -37,7 +37,7 @@ class Item(models.Model):
     image_type = models.CharField(max_length=11, choices=IMAGE_TYPES)
     image_url = models.URLField(blank=True,
                                 default='https://s.clipartkey.com/mpngs/s/39-392476_transparent-jeep-clipart-audi-a4-2014-front.png')
-    image_file = models.ImageField(blank=True, default='/images/car.png', upload_to='images')
+    image_file = models.ImageField(blank=True, default='../static/img/car.png', upload_to='images')
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 

@@ -7,7 +7,7 @@ document.getElementById('image_url_input').hidden = true;
 document.getElementById('img_url_input').value = '';
 document.getElementById('image_file_input').hidden = true;
 document.getElementById('img_file_input').value = '';
-document.getElementById('btn_create').hidden = true;
+// document.getElementById('btn_create').hidden = true;
 
 function updateImage() {
     let img = document.getElementById('web_img_preview');
@@ -22,17 +22,17 @@ function getSelectedType() {
     console.log(input_type);
     document.getElementById('image_url_input').hidden = true;
     document.getElementById('image_file_input').hidden = true;
-    document.getElementById('btn_create').hidden = true;
+    // document.getElementById('btn_create').hidden = true;
     if (input_type === 'web_image') {
         document.getElementById('image_file_input').hidden = true;
         document.getElementById('image_url_input').hidden = false;
         document.getElementById('img_url_input').addEventListener('input', updateImage);
-        document.getElementById('btn_create').hidden = false;
+        // document.getElementById('btn_create').hidden = false;
     } else if (input_type === 'local_image') {
         document.getElementById('image_url_input').hidden = true;
         document.getElementById('image_file_input').hidden = false;
         document.getElementById('img_file_input').addEventListener('input', updateImage);
-        document.getElementById('btn_create').hidden = false;
+        // document.getElementById('btn_create').hidden = false;
     }
     return input_type;
 }

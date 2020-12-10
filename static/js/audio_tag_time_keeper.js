@@ -33,4 +33,5 @@ function toggle_play() {
 
 function update_time() {
     sessionStorage.setItem('current_time', document.getElementById('background_audio').currentTime);
+    sessionStorage.setItem('old_time', document.getElementById('background_audio').currentTime);
 }

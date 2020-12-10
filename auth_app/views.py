@@ -94,6 +94,7 @@ def register_user(request):
 # @login_required
 @allowed_groups(allowed_roles=['superusers', 'users'])
 def show_profile(request, pk):
+    # if request.user.id == pk or request.user.is_superuser:
     if request.user.id == pk:
         user = get_user_model().objects.get(pk=pk)
         current_profile = UserProfile.objects.get(user_id=pk)

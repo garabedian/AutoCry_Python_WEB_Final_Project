@@ -6,6 +6,16 @@
     <title>Auto Cry</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <style>
+        body {
+            background-image: url("{% static 'img/road.jpg' %}");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            opacity: 90%;
+        }
+    </style>
+
     {#    Using Bootstrap locally through django-bootstrap4 app #}
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
@@ -28,7 +38,7 @@
 
     {% include 'header.html' %}
 
-    <div class="container" style="padding-top: 80px; padding-bottom: 80px">
+    <div class="container" style="padding-top: 80px; padding-bottom: 80px; background: #f8f4f4">
         {% block content %}
             <div class="jumbotron parent">
                 <img style="width: 100%"

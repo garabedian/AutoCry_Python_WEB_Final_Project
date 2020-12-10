@@ -32,3 +32,14 @@
     cursor: pointer;
     margin: 15px 0;
 }
+
+#accordion {
+    border: 2px solid #cdc7c7;
+    display: inline-block;
+    width: 100%;
+    font-size: 1.3rem;
+}
+
+#extra {
+    display: none;
+}
