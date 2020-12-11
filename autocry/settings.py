@@ -158,10 +158,10 @@ django_heroku.settings(locals())
 
 # Use cloudinary as media storage
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': '',
-    'API_KEY': '',
-    'API_SECRET': '',
+    'CLOUD_NAME': 'hewtsbisw',
+    'API_KEY': '192825189237136',
+    'API_SECRET': 'FiHHpJtfFx5HjGCJlkbmzhLvTu0',
 }
 
 # Activate for Heroku upload
-# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
