@@ -199,6 +199,8 @@ def persist_item(request, item, template_name):
             entry = form.save(commit=False)
             if entry.image_type == 'local_image':
                 entry.image_url = ''
+            elif not entry.image_url:
+                entry.image_url = old_image_url
             if not item_has_author:
                 entry.author = request.user
             entry.publish()

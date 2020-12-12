@@ -38,10 +38,13 @@ function update_time() {
 
 function toggle_image() {
     const main_land = document.getElementById("main_land");
+    const btn = document.getElementById("background_image_btn");
 
     if (main_land.style.display === "block") {
         main_land.style.display = "none";
+        btn.className = ("btn btn-info btn-sm");
     } else {
         main_land.style.display = "block";
+        btn.className = ("btn btn-outline-info btn-sm");
     }
 }
