@@ -166,4 +166,4 @@ CLOUDINARY_STORAGE = {
 # NB! Heroku needs python-dateutil version 1.5 - DO NOT UPGRADE IT
 # NB! Heroku needs chardet version 3.0.2 - DO NOT UPGRADE IT
 # Activate for Heroku upload
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
