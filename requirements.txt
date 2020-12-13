@@ -2,7 +2,7 @@ asgiref==3.3.1
 beautifulsoup4==4.9.3
 boto==2.49.0
 certifi==2020.12.5
-chardet==4.0.0
+chardet==3.0.2
 cloudinary==1.23.0
 coreapi==2.3.3
 coreschema==0.0.4
