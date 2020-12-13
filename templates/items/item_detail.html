@@ -24,7 +24,7 @@
                                style="color: red"> {{ users|get_item:item.author_id }}</a></h5></li>
                     </ul>
                 </div>
-                <p class="mt-2">Description: {{ item.description|linebreaks }}</p>
+                <p class="mt-2" style="overflow-wrap: break-word;">Description: {{ item.description }}</p>
                 <div>
                     {% if item.can_edit %}
                         <a href="{% url 'edit item' item.id %}" class="btn btn-success">Edit</a>
